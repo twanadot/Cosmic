@@ -95,9 +95,6 @@ class Routes extends Router
                 Router::get('/guilds/{group}/thread/{slug}', 'Community\Guilds\Topic@index', ['defaultParameterRegex' => '[\w\-]+'])->addMiddleware(GuildMiddleware::class);
                 Router::get('/guilds/{group}/thread/{slug}/page/{page}', 'Community\Guilds\Topic@index', ['defaultParameterRegex' => '[\w\-]+'])->addMiddleware(GuildMiddleware::class);
 
-                Router::get('/marketplace/my/inventory', 'Community\Value@my');
-                Router::get('/marketplace/all/sell', 'Community\Value@sell');
-              
                 Router::partialGroup('/guilds/post/{controller}/{action}', function ($controller, $action) {
                     Router::post('/', 'Community\Guilds\\' . ucfirst($controller) . '@' . $action)->addMiddleware(GuildMiddleware::class);
                 })->addMiddleware(ValidateMiddleWare::class);
@@ -123,9 +120,6 @@ class Routes extends Router
                 Router::get('/community/staff', 'Community\Staff@index');
 
                 Router::get('/community/fansites', 'Community\Fansites@index');
-
-                Router::get('/marketplace', 'Community\Value@index');
-                Router::get('/marketplace/{value}', 'Community\Value@index', ['defaultParameterRegex' => '[\w\-]+']);
 
                 Router::get('/help', 'Help\Help@index');
                 Router::get('/help/{slug}', 'Help\Help@index', ['defaultParameterRegex' => '[\w\-]+']);
