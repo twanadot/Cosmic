@@ -77,10 +77,7 @@ class Api
             
             response()->json($statistics);
         } else {
-            response()->json([
-                'error' => 'User Agent does not Match',
-                'user_agent' => request()->getUserAgent()
-            ]);
+            $this->noMatch();
         }
     }
   
@@ -122,7 +119,7 @@ class Api
 
     public function version()
     {
-        $version_cosmic = @file_get_contents("https://cosmicproject.online/version.txt");
+        $version_cosmic = @file_get_contents("https://raw.githubusercontent.com/devraizer/Cosmic/master/Cosmic/public/version.txt");
         $version = @file_get_contents("version.txt");
         return ($version_cosmic != $version) ? true : false;
     }
