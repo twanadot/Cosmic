@@ -1,0 +1,8 @@
+public/tmp/*
+public/uploads/*
+
+# PHPStorm
+.idea
+vendor/*
+composer.phar
+composer.lock
