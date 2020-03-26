@@ -1702,15 +1702,18 @@ input:-webkit-autofill {
 }
 
 /* Header */
-.header-container1 {
-    background: url('https://leet.ws/assets/images/web/header/background_left.png') no-repeat left bottom, url('https://leet.ws/assets//images/web/header/background_right.png') right no-repeat, url('https://leet.ws/assets/images/web/header/background.png');
-    position: relative;
-    background-color: #000;
-    position: relative;
-    color: #fff;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  
+.header-container {
+    text-shadow: 0 1px 0 rgba(0,0,0,.3);
     text-align: center;
     overflow: hidden;
+    position: relative;
+    height: 180px;
+    background: url(../images/cosmic.gif) no-repeat center;
+    background-color: #74d8ea;
+    background-repeat: no-repeat; 
+    border-bottom: 3px solid rgba(8,8,8,.18);
+}
 }
 
 .header-container {

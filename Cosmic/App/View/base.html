@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="/assets/css/magnific-popup.css">
     <link rel="stylesheet" href="/assets/css/selectric.css">
     <link rel="stylesheet" href="/assets/css/circle.css?v=5">
-    <link rel="stylesheet" href="/assets/css/web.css?v=111">
+    <link rel="stylesheet" href="/assets/css/web.css?v=1111">
     <link rel="stylesheet" href="/assets/css/web.responsive.css">
 
     <script src="/assets/js/web/user_settings.js"></script>
@@ -122,7 +122,7 @@
     {% endif %}
 
     <header class="header-container pixelated is-small">
-        <div class="header-content">
+        <div class="header-content"> 
             <div class="logo"><a href="/home"><img src="https://habbofont.net/font/hma/{{site.shortname}}.gif"
                         style="margin-top: 30px;"></a></div>
             <div class="account-container">
@@ -136,8 +136,8 @@
                     <span>of</span>
                     <a href="/registration" class="rounded-button white plain">{{locale_base.header_register}}</a>
                     {% else %}
-                    <a href="/hotel" class="rounded-button white plain hotel-button">{{locale_base.header_to}}
-                        {{site.sitename}}</a>
+                    <a href="/hotel" class="rounded-button white plain hotel-button">{{locale_base.header_to}} {{site.sitename}}</a>
+                    <button class="rounded-button white plain hotel-button">{{online_count}} {{site.sitename}}'s online</button>
                     {% endif %}
                 </div>
             </div>
