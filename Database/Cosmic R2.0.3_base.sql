@@ -252,21 +252,6 @@ CREATE TABLE `website_jobs_applys`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for website_marketplace
--- ----------------------------
-DROP TABLE IF EXISTS `website_marketplace`;
-CREATE TABLE `website_marketplace`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `item_id` int(11) NULL DEFAULT NULL,
-  `user_id` int(11) NULL DEFAULT NULL,
-  `currency_type` int(3) NULL DEFAULT NULL,
-  `item_costs` int(11) NULL DEFAULT NULL,
-  `timestamp_added` int(11) NULL DEFAULT NULL,
-  `timestamp_expire` int(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
 -- Table structure for website_news
 -- ----------------------------
 DROP TABLE IF EXISTS `website_news`;
@@ -474,32 +459,6 @@ CREATE TABLE `website_referrals`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for website_rare_values
--- ----------------------------
-DROP TABLE IF EXISTS `website_rare_values`;
-CREATE TABLE `website_rare_values`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `slug` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `cat_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `cat_ids` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
-  `is_hidden` enum('0','1') CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `discount` int(3) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for website_remembered_logins
--- ----------------------------
-DROP TABLE IF EXISTS `website_remembered_logins`;
-CREATE TABLE `website_remembered_logins`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `token_hash` varchar(128) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `user_id` int(11) NULL DEFAULT NULL,
-  `expires_at` varchar(24) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
 -- Table structure for website_settings
 -- ----------------------------
 DROP TABLE IF EXISTS `website_settings`;
@@ -624,10 +583,8 @@ CREATE TABLE `website_membership`  (
 -- ----------------------------
 -- Alter table fixes for Cosmic to work
 -- ----------------------------
-ALTER TABLE catalog_items ADD rate enum('up','down','none') DEFAULT 'none';
 ALTER TABLE users ADD secret_key varchar(40) NULL DEFAULT NULL;
 ALTER TABLE users ADD pincode varchar(11) NULL DEFAULT NULL;
 ALTER TABLE users MODIFY mail VARCHAR(500);
-ALTER TABLE users ADD shuttle_token varchar(200) NULL DEFAULT NULL;
 
 SET FOREIGN_KEY_CHECKS = 1;
