@@ -183,9 +183,11 @@ class Routes extends Router
             });
         });
       
-        Router::error(function(Request $request, \Exception $exception) {
-            response()->redirect('/lost');
-        });
+        if(Config::debug) {
+            Router::error(function(Request $request, \Exception $exception) {
+                response()->json(['error' => $exception->getMessage(), 'code'  => $exception->getCode()]);
+            });
+        }
       
         Router::start();
     }
