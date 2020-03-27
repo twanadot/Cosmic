@@ -76,6 +76,7 @@ class View
                 $twig->addGlobal('player_permissions', Permission::get(request()->player->rank));
               
                 if(request()->getUrl()->contains('/housekeeping')) {
+                    $twig->addGlobal('staff_count', Admin::getStaffCount(3));
                     $twig->addGlobal('player_rank', Player::getHotelRank(request()->player->rank));
                     $twig->addGlobal('flash_messages', Flash::getMessages());
                     $twig->addGlobal('alert_messages', Admin::getAlertMessages());

@@ -307,6 +307,11 @@ class Admin
         return QueryBuilder::table('users')->setFetchMode(PDO::FETCH_CLASS, get_called_class())->where('id', $user_id)->update($data);
     }
 
+    public static function getStaffCount($rank)
+    {
+        return QueryBuilder::table('users')->where('online', "1")->where('rank', ">=", $rank)->count();
+    }
+  
     public static function getPopularRooms($limit = 100)
     {
         return QueryBuilder::table('rooms')->setFetchMode(PDO::FETCH_CLASS, get_called_class())->orderBy('users', 'desc')->limit($limit)->get();
