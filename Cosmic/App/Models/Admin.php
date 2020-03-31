@@ -822,7 +822,7 @@ class Admin
     {
         $data = array(
             'user_id' => $user_id,
-            'slot' => 0,
+            'slot_id' => 0,
             'badge_code' => $badge
         );
 

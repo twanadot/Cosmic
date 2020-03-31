@@ -39,7 +39,7 @@ class Badge
             if($player->online) {
                 HotelApi::execute('givebadge', array('user_id' => $player->id, 'badge' => $imageExtension));
             } else {
-                Admin::insertBadge($badge->user_id, $badge);
+                Admin::insertBadge($badge->user_id, $imageExtension);
             }
           
         } else {
