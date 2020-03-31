@@ -61,13 +61,13 @@ t = $("#kt_datatable_staff_logs").KTDatatable({
 })
 }
 
-var datatableBanLogs = function() {
-if ($('#kt_datatable_staff_logs').length === 0) {
+var datatableCommandLogs = function() {
+if ($('#kt_datatable_command_logs').length === 0) {
     return;
 }
 
 var t;
-t = $("#kt_datatable_staff_logs").KTDatatable({
+t = $("#kt_datatable_command_logs").KTDatatable({
     data: {
         type: 'remote',
         source: {
@@ -120,7 +120,8 @@ t = $("#kt_datatable_staff_logs").KTDatatable({
         title: "Timestamp"
     }]
 }), $("#kt_datatable_reload").on("click", function() {
-    $("#kt_datatable_staff_logs").KTDatatable("reload")
+    $("#kt_datatable_command_logs").KTDatatable("reload")
 })
 }
 datatableBanLogs();
+datatableCommandLogs();
