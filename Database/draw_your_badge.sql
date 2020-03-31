@@ -7,6 +7,6 @@ CREATE TABLE `website_badge_requests`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 
-INSERT INTO `website_settings` VALUES ('draw_badge_imaging ', NULL);
-INSERT INTO `website_settings` VALUES ('draw_badge_currency ', NULL);
-INSERT INTO `website_settings` VALUES ('draw_badge_price ', NULL);
+INSERT INTO `website_settings` VALUES ('draw_badge_imaging', NULL);
+INSERT INTO `website_settings` VALUES ('draw_badge_currency', NULL);
+INSERT INTO `website_settings` VALUES ('draw_badge_price', NULL);
