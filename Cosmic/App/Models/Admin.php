@@ -802,4 +802,19 @@ class Admin
     {
         return QueryBuilder::table('website_settings')->where('key', $column)->update(array('value' => $value_id));
     }
+  
+    public static function getBadgeById($id) 
+    {
+        return QueryBuilder::table('website_badge_requests')->find($id);
+    }
+  
+    public static function getBadgeRequests() 
+    {
+        return QueryBuilder::table('website_badge_requests')->where('status', "open")->get();
+    }
+  
+    public static function updateBadgeRequest($id, $status)
+    {
+        return QueryBuilder::table('website_badge_requests')->where('id', $id)->update(array('status' => $status));
+    }
 }
