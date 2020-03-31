@@ -421,7 +421,7 @@ INSERT INTO `website_permissions_ranks` VALUES (25, 25, 7);
 INSERT INTO `website_permissions_ranks` VALUES (26, 26, 7);
 INSERT INTO `website_permissions_ranks` VALUES (27, 27, 1);
 INSERT INTO `website_permissions_ranks` VALUES (28, 27, 2);
-INSERT INTO `website_permissions_ranks` VALUES (28, 29, 7);
+INSERT INTO `website_permissions_ranks` VALUES (29, 29, 7);
 
 
 -- ----------------------------
