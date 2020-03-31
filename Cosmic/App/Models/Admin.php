@@ -413,11 +413,11 @@ class Admin
         return QueryBuilder::table('website_helptool_categories')->where('id', $id)->first();
     }
 
-    public static function addFAQ($title, $story, $category, $author)
+    public static function addFAQ($title, $slug, $story, $category, $author)
     {
         $data = array(
             'title' => $title,
-            'slug' => $title,
+            'slug' => $slug,
             'desc' => $story,
             'category' => $category,
             'timestamp' => time(),
@@ -427,11 +427,11 @@ class Admin
         return QueryBuilder::table('website_helptool_faq')->insert($data);
     }
 
-    public static function editFAQ($id, $title, $story, $category, $author)
+    public static function editFAQ($id, $title, $slug, $story, $category, $author)
     {
         $data = array(
             'title' => $title,
-            'slug' => $title,
+            'slug' => $slug,
             'desc' => $story,
             'category' => $category,
             'timestamp' => time(),
