@@ -10,3 +10,5 @@ CREATE TABLE `website_badge_requests`  (
 INSERT INTO `website_settings` VALUES ('draw_badge_imaging', NULL);
 INSERT INTO `website_settings` VALUES ('draw_badge_currency', NULL);
 INSERT INTO `website_settings` VALUES ('draw_badge_price', NULL);
+
+INSERT INTO `website_permissions` VALUES (29, 'housekeeping_website_badgerequest', 'Player is able to accept new badge requests
