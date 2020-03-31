@@ -245,7 +245,7 @@
    </script>
 
    {% if block('jsfile') is defined  %}
-   <script src="/assets/admin/js/pages/web.{{ block('jsfile')|lower }}.js?v={{date().timestamp}}"></script>
+   <script src="/assets/admin/js/pages/web.{{ block('jsfile')|lower }}.js"></script>
    {% endif %}
 
    <script src="/assets/admin/js/init.js" type="text/javascript"></script>

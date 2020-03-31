@@ -37,7 +37,7 @@ class Badge
             $imageExtension = str_replace(".gif", "", $badge->badge_imaging);
           
             if($player->online) {
-                HotelApi::execute('givebadge', array('user_id' => $player->user_id, 'badge' => $imageExtension));
+                HotelApi::execute('givebadge', array('user_id' => $player->id, 'badge' => $imageExtension));
             } else {
                 Admin::insertBadge($badge->user_id, $badge);
             }
