@@ -813,6 +813,17 @@ class Admin
         return QueryBuilder::table('website_badge_requests')->where('status', "open")->get();
     }
   
+    public static function insertBadge($user_id, $badge)
+    {
+        $data = array(
+            'user_id' => $user_id,
+            'slot' => 0,
+            'badge_code' => $badge
+        );
+
+        return QueryBuilder::table('users_badges')->insert($data);
+    }
+  
     public static function updateBadgeRequest($id, $status)
     {
         return QueryBuilder::table('website_badge_requests')->where('id', $id)->update(array('status' => $status));

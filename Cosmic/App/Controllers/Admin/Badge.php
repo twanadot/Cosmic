@@ -32,8 +32,16 @@ class Badge
         }
       
         if($action == "accept") {
-            HotelApi::execute('givebadge', array('user_id' => $badge->user_id, 'badge' => str_replace(".gif", "", $badge->badge_imaging)));
-            Admin::updateBadgeRequest($id, $action);
+          
+            $player = Player::getDataById($badge->user_id);
+            $badge = str_replace(".gif", "", $badge->badge_imaging);
+          
+            if($player->online) {
+                HotelApi::execute('givebadge', array('user_id' => $badge->user_id, 'badge' => $badge));
+            } else {
+                Admin::insertBadge($badge->user_id, $badge);
+            }
+          
         } else {
             unlink(Core::settings()->draw_badge_imaging . $badge->badge_imaging);
         }
