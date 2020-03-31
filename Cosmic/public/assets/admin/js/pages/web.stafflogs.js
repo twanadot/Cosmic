@@ -88,11 +88,6 @@ t = $("#kt_datatable_command_logs").KTDatatable({
         input: $("#generalSearch")
     },
     columns: [{
-        field: "id",
-        title: "#",
-        type: "number",
-        width: 75
-    }, {
         field: "username",
         title: "Username",
         width: 100,
@@ -100,24 +95,17 @@ t = $("#kt_datatable_command_logs").KTDatatable({
             return '<span class="kt-font"><a href="#" class="kt-user-card-v2__name" data-toggle="modal" data-target="#actionModal"  data-id="' + data.username + '">' + data.username +  '</a>';
         }
     }, {
-        field: "type",
-        title: "Type", 
-        width: 85
+        field: "params",
+        title: "Params", 
+        width: 180
     }, {
-        field: "value",
-        title: "Data",
-        width: 350
-    }, {
-        field: "target",
-        title: "Target",
-        width: 100,
-        template: function(data) {
-            if(data.target !== null)
-                return '<span class="kt-font"><a href="#" class="kt-user-card-v2__name" data-toggle="modal" data-target="#actionModal"  data-id="' + data.target + '">' + data.target +  '</a>';
-        }
+        field: "command",
+        title: "Command",
+        width: 400
     }, {
         field: "timestamp",
-        title: "Timestamp"
+        title: "Succes",
+        width: 350
     }]
 }), $("#kt_datatable_reload").on("click", function() {
     $("#kt_datatable_command_logs").KTDatatable("reload")

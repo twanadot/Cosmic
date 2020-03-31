@@ -34,10 +34,10 @@ class Badge
         if($action == "accept") {
           
             $player = Player::getDataById($badge->user_id);
-            $badge = str_replace(".gif", "", $badge->badge_imaging);
+            $imageExtension = str_replace(".gif", "", $badge->badge_imaging);
           
             if($player->online) {
-                HotelApi::execute('givebadge', array('user_id' => $badge->user_id, 'badge' => $badge));
+                HotelApi::execute('givebadge', array('user_id' => $player->user_id, 'badge' => $imageExtension));
             } else {
                 Admin::insertBadge($badge->user_id, $badge);
             }

@@ -145,6 +145,11 @@ class Admin
     {
         return QueryBuilder::table('website_staff_logs')->OrderBy('id', 'desc')->limit($limit)->get();
     }
+  
+    public static function getCommandLogs($limit = 100)
+    {
+        return QueryBuilder::table('commandlogs')->OrderBy('timestamp', 'desc')->limit($limit)->get();
+    }
 
     public static function getClones($last_ip, $reg_ip, $limit = 1000)
     {
