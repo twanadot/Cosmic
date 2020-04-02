@@ -43,6 +43,7 @@ class Badge
             }
           
         } else {
+            HotelApi::execute('givepoints', array('user_id' => $badge->user_id, 'points' => Core::settings()->draw_badge_price, 'type' => Core::settings()->draw_badge_currency));
             unlink(Core::settings()->draw_badge_imaging . $badge->badge_imaging);
         }
       
