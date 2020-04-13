@@ -170,21 +170,18 @@ class News
 
     protected function imageUpload($imagePath)
     {
-        if(preg_match("/^[^\?]+\.(jpg|jpeg|gif|png)(?:\?|$)/", $imagePath)) {
-            $this->file = new Upload();
+        $this->file = new Upload();
 
-            $this->file->setInput("imagesUpload");
-            $this->file->setDestinationDirectory("../public/uploads/");
-            $this->file->setUploadFunction("copy");
-            $this->file->setAllowMimeType("image");
-            $this->file->setAutoFilename();
-            $this->file->save();
+        $this->file->setInput("imagesUpload");
+        $this->file->setDestinationDirectory("../public/uploads/");
+        $this->file->setUploadFunction("copy");
+        $this->file->setAllowMimeType("image");
+        $this->file->setAutoFilename();
+        $this->file->save();
 
-            if ($this->file->getStatus()) {
-                return true;
-            }
-
-            return false;
+        if ($this->file->getStatus()) {
+            return true;
         }
+        return false;
     }
 }
