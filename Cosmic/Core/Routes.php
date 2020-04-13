@@ -118,9 +118,9 @@ class Routes extends Router
                 Router::get('/articles', 'Community\Articles@index');
                 Router::get('/article/{slug}', 'Community\Articles@index', ['defaultParameterRegex' => '[\w\-]+']);
 
-                Router::get('/community/team', 'Community\Team@index');
                 Router::get('/community/photos', 'Community\Photos@index');
                 Router::get('/community/staff', 'Community\Staff@index');
+                Router::get('/community/team', 'Community\Staff@team');
 
                 Router::get('/community/fansites', 'Community\Fansites@index');
 
