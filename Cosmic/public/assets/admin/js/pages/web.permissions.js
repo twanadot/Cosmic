@@ -61,16 +61,16 @@ var permissions = function() {
           
             var datatableCompare = function() {
 
-            if ($('#kt_datatable_permissions').length === 0) {
+            if ($('#kt_datatable_teams').length === 0) {
                 return;
             } else {
-                if ($.trim($('#kt_datatable_permissions').html()).length) {
-                    $("#kt_datatable_permissions").KTDatatable("destroy")
+                if ($.trim($('#kt_datatable_teams').html()).length) {
+                    $("#kt_datatable_teams").KTDatatable("destroy")
                 }
             }
 
             var t;
-            $("#kt_datatable_permissions").KTDatatable({
+            $("#kt_datatable_teams").KTDatatable({
                 data: {
                     type: 'remote',
                     source: {
@@ -114,7 +114,7 @@ var permissions = function() {
             });
 
             $("#kt_datatable_reload").on("click", function() {
-                $("#kt_datatable_permissions").KTDatatable("reload")
+                $("#kt_datatable_teams").KTDatatable("reload")
             });
         };
 
@@ -135,7 +135,7 @@ var permissions = function() {
                         id:id
                     }, function(result) {
                         if (result.status == "success") {
-                            $("#kt_datatable_permissions").KTDatatable("reload");
+                            $("#kt_datatable_teams").KTDatatable("reload");
                         }
                     });
                 });
@@ -151,7 +151,7 @@ var permissions = function() {
             }, function(result) {
                 if (result.status == "success") {
                     $('#addCategoryModal').modal('toggle');
-                    $("#kt_datatable_permissions").KTDatatable("reload");
+                    $("#kt_datatable_teams").KTDatatable("reload");
                 }
             });
         });
