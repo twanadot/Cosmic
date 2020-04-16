@@ -46,6 +46,10 @@ class Routes extends Router
           
             Router::post('/profile/search', 'Home\Profile@search');
 
+            Router::get('/assets/js/web/web.locale.js', function () {
+                header('Content-Type: application/javascript');
+                return 'var Locale = ' . json_encode(Locale::get('website/javascript', true), true) . '';
+            });
 
             /**
              *  When user is not logged in
