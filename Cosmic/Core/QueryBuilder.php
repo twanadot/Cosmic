@@ -11,7 +11,7 @@ class QueryBuilder {
 
     public function __construct() {
       
-        $dotenv = new \Symfony\Component\Dotenv\Dotenv;
+        $dotenv = new \Symfony\Component\Dotenv\Dotenv(true);
         $dotenv->loadEnv(dirname(__DIR__).'/.env');
 
         $config = [
