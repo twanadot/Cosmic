@@ -47,6 +47,10 @@
     }
     
     {% if player is empty %}
+    var Client = {
+        client_radio: "{{client.client_radio}}"   
+    }
+    
     var User = {
         id: 0,
         username: "",
