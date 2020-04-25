@@ -33,7 +33,9 @@ class Community
     public static function getCurrencyHighscores($type, $limit) 
     {
         return QueryBuilder::table('users_currency')->selectDistinct(array('users_currency.user_id', 'users_currency.amount', 'users_currency.type'))
-                      ->join('users', 'users_currency.user_id', '=', 'users.id')->where('users_currency.type', $type)->where('users.rank', '<', 3)->orderBy('users_currency.amount', 'DESC')->limit($limit)->get();
+                      ->join('users', 'users_currency.user_id', '=', 'users.id')->where('users_currency.type', $type)
+                      ->join('website_permissions_ranks', 'users.rank', '=', 'website_permissions_ranks.rank_id')->whereNot('website_permissions_ranks.permission_id', '!=', 27)
+                      ->orderBy('users_currency.amount', 'DESC')->limit($limit)->get();
     }
     
     /*
@@ -182,17 +184,22 @@ class Community
   
     public static function getAchievement($limit = 10)
     {
-        return QueryBuilder::table('users_settings')->select('user_id')->select('achievement_score')->orderBy('achievement_score', 'desc')->limit($limit)->get();
+        return QueryBuilder::table('users_settings')->select('user_id')->select('achievement_score')->orderBy('achievement_score', 'desc')
+                ->join('users', 'users_settings.user_id', '=', 'users.id')
+                ->join('website_permissions_ranks', 'users.rank', '=', 'website_permissions_ranks.rank_id')->whereNot('website_permissions_ranks.permission_id', '!=', 27)->limit($limit)->get();
     }
   
     public static function getRespectsReceived($limit = 10)
     {
-        return QueryBuilder::table('users_settings')->select('user_id')->select('respects_received')->orderBy('respects_received', 'desc')->limit($limit)->get();
+        return QueryBuilder::table('users_settings')->select('user_id')->select('respects_received')->orderBy('respects_received', 'desc')
+                ->join('users', 'users_settings.user_id', '=', 'users.id')
+                ->join('website_permissions_ranks', 'users.rank', '=', 'website_permissions_ranks.rank_id')->whereNot('website_permissions_ranks.permission_id', '!=', 27)->limit($limit)->get();
     }
 
     public static function getCredits($limit = 10)
     {
-        return QueryBuilder::table('users')->select('id')->select('credits')->orderBy('credits', 'desc')->limit($limit)->get();
+        return QueryBuilder::table('users')->select('users.id')->select('users.credits')->orderBy('users.credits', 'desc')
+                ->join('website_permissions_ranks', 'users.rank', '=', 'website_permissions_ranks.rank_id')->whereNot('website_permissions_ranks.permission_id', '!=', 27)->limit($limit)->get();
     }
  
     /*
