@@ -46,11 +46,7 @@
         figure_url: "{{site.fpath}}"
     }
     
-    {% if player is empty %}
-    var Client = {
-        client_radio: "{{client.client_radio}}"   
-    }
-    
+    {% if player is empty %}  
     var User = {
         id: 0,
         username: "",
@@ -58,7 +54,13 @@
         is_logged: false,
         is_staff: false
     }
-    {% else %}var User = {
+    {% else %}
+    var Client = {
+        client_radio: "{{client.client_radio}}"   
+    }
+    
+
+    var User = {
         id: {{player.id}},
         username: "{{player.username}}",
         is_logged: true,
