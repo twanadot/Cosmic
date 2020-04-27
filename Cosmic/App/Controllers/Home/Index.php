@@ -43,10 +43,6 @@ class Index
         ], 10);
 
         return false;
-    }
 
-    public function configuration() {
-        Header('Content-Type: text/javascript');
-        View::renderTemplate('configuration.html', ['debug' => (Config::debug ? 'true' : 'false'), 'client' => Config::client]);
-    }
+     }
 }
