@@ -1,0 +1,1 @@
+INSERT INTO `website_settings` VALUES ('vip_gift_items', '');
