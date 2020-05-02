@@ -109,7 +109,7 @@ class Help
             exit;
         }
 
-        Admin::sendTicketMessage(Helper::filterString($message), $ticket->id, request()->player->id);
+        Admin::sendTicketMessage($message, $ticket->id, request()->player->id);
         Log::addHelpTicketLog(request()->player->id, $ticket->id, 'SEND', 'message');
 
         if(Config::apiEnabled && request()->player->online) {
