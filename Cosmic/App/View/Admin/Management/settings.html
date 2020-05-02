@@ -262,7 +262,17 @@
                                                                 <div class="col-lg-5">
                                                                     <input name="vip_badges" value="{% for badges in settings.vip_badges %}{{badges.value}},{% endfor %}">
                                                                 </div>
-                                                            </div>                                       
+                                                            </div>    
+                                                            <div class="form-group row">
+                                                                <label class="col-lg-3 col-form-label">Gift items:</label>
+                                                                <div class="col-lg-5">
+                                                                    <select name="vip_gift_items[]" class="form-control targetItems" multiple="multiple">
+                                                                        {% for items in settings.vip_gift_items %}
+                                                                        <option value="{{items.value}}">{{items.name}}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div> 
                                                             <div class="form-group row">
                                                                 <label class="col-lg-3 col-form-label">Days:</label>
                                                                 <div class="col-lg-3">

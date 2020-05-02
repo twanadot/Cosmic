@@ -129,7 +129,6 @@ jQuery(document).ready(function() {
     // init Tagify script on the above inputs
     new Tagify(input);
 
-
     $('.targetCurrency').select2({
         placeholder: 'Select a currency',
         width: '85%',
@@ -154,7 +153,41 @@ jQuery(document).ready(function() {
         }
     });
 
+    $('.targetItems').select2({
+        placeholder: 'Select a item',
+        width: '85%',
+        ajax: {
+            url: '/housekeeping/search/get/items',
+            headers: {
+                "Authorization": "housekeeping_permissions"
+            },
+            dataType: 'json',
+            delay: 250,
+            data: function(params) {
+                return {
+                    searchTerm: params.term
+                };
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
+    });
+  
+    var self = this;
+    this.ajax_manager = new WebPostInterface.init();
 
+    self.ajax_manager.post("/housekeeping/api/settings/getItems", {},function(result) {
+          var items = [];
+          for (var item in result){
+              items.push(result[item].id);
+          }
+          $('.targetItems').val(items);
+          $('.targetItems').trigger('change');
+    });
 
     tinymce.init({
         selector: "textarea",

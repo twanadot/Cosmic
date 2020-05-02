@@ -23,6 +23,18 @@ class Search
         echo Json::encode([array('id' => "none", 'text' => 'Select badge')]);
     }
   
+    public function items()
+    {
+        $string =  input()->get('searchTerm')->value ?? null;
+
+        $items = Admin::getItems($string);
+        foreach($items as $item) {
+            $this->paths[] = array('id' => $item->id, 'text' => $item->item_name);
+        }
+
+        echo Json::encode($this->paths);
+    }
+  
     public function currencys()
     {
         $string =  input()->get('searchTerm')->value ?? null;

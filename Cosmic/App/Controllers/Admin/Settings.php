@@ -12,10 +12,26 @@ use Library\Json;
 
 class Settings
 {
+    public function __construct() 
+    {
+        $this->settings = Core::settings();
+        $this->data = new \stdClass();
+    }
+  
     public function save()
     {
         foreach(input()->all() as $column => $value) {
-          
+
+            if($column == "vip_gift_items") {
+              
+                foreach(input()->post('vip_gift_items') as $gifts) {
+                    unset($gifts->index);
+                    unset($gifts->name);
+                }
+                
+                $value = json_encode(input()->post('vip_gift_items'));
+            }
+
             if($column == "krews_api_hotel_slug") {
                 $value = \App\Helper::convertSlug($value);    
             }
@@ -55,6 +71,17 @@ class Settings
         }
     }
   
+    public function getItems()
+    {
+        $items = json_decode($this->settings->vip_gift_items, true);
+        foreach($items as $item)
+        {
+            $this->data->{$item['value']} = Admin::getFurnitureById($item['value']);
+        }
+      
+        echo json_encode($this->data);
+    }
+  
     public function getCurrencys()
     {
         response()->json(Core::getCurrencys());
@@ -62,16 +89,20 @@ class Settings
   
     public function view()
     {
-        $settings = Core::settings();
-        $settings->vip_badges = json_decode($settings->vip_badges,true);
+        $this->settings->vip_badges = json_decode($this->settings->vip_badges,true);
       
-        $settings->vip_currency_type = Core::getCurrencyByType($settings->vip_currency_type);
-        $settings->namechange_currency_type = Core::getCurrencyByType($settings->namechange_currency_type);
-        $settings->draw_badge_currency = Core::getCurrencyByType($settings->draw_badge_currency);
+        $this->settings->vip_gift_items = json_decode($this->settings->vip_gift_items);
+        foreach($this->settings->vip_gift_items as $item) {
+            $item->name = Admin::getFurnitureById($item->value)->item_name;
+        }
       
-        $settings->ranks = Permission::getRanks();
-        $settings->user_of_the_week = Player::getDataById($settings->user_of_the_week ?? 0, ['id', 'username']) ?? false;
+        $this->settings->vip_currency_type = Core::getCurrencyByType($this->settings->vip_currency_type);
+        $this->settings->namechange_currency_type = Core::getCurrencyByType($this->settings->namechange_currency_type);
+        $this->settings->draw_badge_currency = Core::getCurrencyByType($this->settings->draw_badge_currency);
+      
+        $this->settings->ranks = Permission::getRanks();
+        $this->settings->user_of_the_week = Player::getDataById($this->settings->user_of_the_week ?? 0, ['id', 'username']) ?? false;
 
-        View::renderTemplate('Admin/Management/settings.html', ['settings' => $settings, 'permission' => 'housekeeping_config']);
+        View::renderTemplate('Admin/Management/settings.html', ['settings' => $this->settings, 'permission' => 'housekeeping_config']);
     }
 }

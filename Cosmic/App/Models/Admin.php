@@ -487,6 +487,11 @@ class Admin
     /*
      * Catalog queries
      */
+    public static function getItems($string, $limit = 10)
+    {
+        return QueryBuilder::table('items_base')->where('item_name', 'LIKE', $string . '%')->limit($limit)->get();
+    }
+  
     public static function getCatalogPages()
     {
         return QueryBuilder::table('catalog_pages')->orderby('id', 'desc')->get();
