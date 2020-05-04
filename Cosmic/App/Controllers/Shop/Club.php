@@ -58,7 +58,7 @@ class Club
       
         $vip_gift = json_decode($this->settings->vip_gift_items, true);
         foreach($vip_gift as $gift) {
-            HotelApi::execute('sendgift', array('user_id' => request()->player->id, 'item_id' => $gift['value'], 'message' => $this->settings->vip_gift_message));
+            HotelApi::execute('sendgift', array('user_id' => request()->player->id, 'itemid' => $gift['value'], 'message' => $this->settings->vip_gift_message));
         }
       
         if($this->settings->vip_membership_days != "lifetime") {
