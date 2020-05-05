@@ -21,7 +21,7 @@ class Config
       'external_productdata'        => 'gamedata/productdata.txt',
       'external_figuredata'         => 'gamedata/furnidata.xml?v=5',
       'external_base'               => 'gordon/PRODUCTION-201904011212-888653470',
-      'client_swf'                  => 'HabboNew.swf',
+      'client_swf'                  => 'Habbo.swf',
       'client_radio'                => 'https://21253.live.streamtheworld.com/WEB16_AAC.aac',
       'client_host'                 => '151.80.54.177',
       'client_port'                 => 3000
