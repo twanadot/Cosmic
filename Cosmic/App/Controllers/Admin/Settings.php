@@ -92,8 +92,10 @@ class Settings
         $this->settings->vip_badges = json_decode($this->settings->vip_badges,true);
       
         $this->settings->vip_gift_items = json_decode($this->settings->vip_gift_items);
-        foreach($this->settings->vip_gift_items as $item) {
-            $item->name = Admin::getFurnitureById($item->value)->item_name;
+        if(!empty($this->settings->vip_gift_items)) {
+            foreach($this->settings->vip_gift_items as $item) {
+                $item->name = Admin::getFurnitureById($item->value)->item_name;
+            }
         }
       
         $this->settings->vip_currency_type = Core::getCurrencyByType($this->settings->vip_currency_type);
