@@ -606,6 +606,7 @@ ALTER TABLE users ADD secret_key varchar(40) NULL DEFAULT NULL;
 ALTER TABLE users ADD pincode varchar(11) NULL DEFAULT NULL;
 ALTER TABLE users ADD extra_rank int(2) NULL DEFAULT NULL;
 ALTER TABLE users MODIFY mail VARCHAR(500);
+ALTER TABLE users ADD template enum('light','dark') NULL DEFAULT 'light';
 ALTER TABLE bans MODIFY COLUMN machine_id varchar(255)NOT NULL DEFAULT '';
 
 SET FOREIGN_KEY_CHECKS = 1;
