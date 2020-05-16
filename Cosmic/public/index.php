@@ -1,6 +1,4 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-
 use App\Config;
 use Core\Routes;
 use Core\QueryBuilder;
