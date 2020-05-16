@@ -25,15 +25,16 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/assets/css/bbeditor.css" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/css/fonts.css">
     <link rel="stylesheet" href="/assets/css/flaticon.css">
     <link rel="stylesheet" href="/assets/css/magnific-popup.css">
     <link rel="stylesheet" href="/assets/css/selectric.css">
     <link rel="stylesheet" href="/assets/css/circle.css?v=5">
-    <link rel="stylesheet" href="/assets/css/web.css?v=1111">
+    <link rel="stylesheet" href="/assets/css/web.{% if player %}{{player.template}}{% else %}{% if template %}{{template}}{% else %}light{% endif %}{% endif %}.css?v=4">
     <link rel="stylesheet" href="/assets/css/web.responsive.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
     <script src="/assets/js/jquery-3.2.1.min.js"></script>
     <script src="/assets/js/jquery.ui.touch-punch.min.js"></script>
     <script src="https://www.google.com/recaptcha/api.js"></script>

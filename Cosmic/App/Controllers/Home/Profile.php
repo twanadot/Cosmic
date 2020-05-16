@@ -2,7 +2,7 @@
 namespace App\Controllers\Home;
 
 use App\Config;
-
+use App\Helper;
 use App\Models\Community;
 use App\Models\Player;
 
@@ -73,6 +73,7 @@ class Profile
             $row->from_username = $from_user->username;
             $row->figure = $from_user->look ?? null;
             $row->likes = Community::getLikes($row->id);
+            $row->message = Helper::bbCode($row->message);
         }
 
         return $feeds;
