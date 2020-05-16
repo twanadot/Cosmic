@@ -2379,7 +2379,7 @@ input:-webkit-autofill {
 }
 
 .page-container[data-page ^="home"] .myfriends-online {
-    background-color: #fff;
+    background-color: #191919;
     border-radius: 5px;
     margin-bottom: 20px;
     -webkit-box-pack: center;
