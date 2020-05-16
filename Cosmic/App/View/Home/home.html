@@ -128,7 +128,7 @@
                             {{locale.popular_no_groups}}
                         {% endif %}
                         {% for row in groups %}
-                            <div id="popularGroups" style="background: url('{{site.cpath}}/c_images/Badgeparts/generated/{{row.badge}}.png') 10px 50% no-repeat;"><div class="countGroupMembers">{{row.Total}}</div><div class="groupName">{{row.name}}</div><div class="groupDesc">{{row.description}}</div></div>
+                            <div id="popularGroups" style="background: url('{{site.cpath}}/c_images/Badgeparts/generated/{{row.badge}}.png') 10px 50% no-repeat {% if player.template == "dark"%}#2f2f2f{% endif %}"><div class="countGroupMembers">{{row.Total}}</div><div class="groupName">{{row.name}}</div><div class="groupDesc">{{row.description}}</div></div>
                         {% endfor %}
                     </div>
                 </aside>
