@@ -117,7 +117,7 @@ class Api
         response()->json(Core::getCurrencys());
     }
 
-    public function version()
+    public static function version()
     {
         $version_cosmic = @file_get_contents("https://raw.githubusercontent.com/devraizer/Cosmic/master/Cosmic/public/version.txt");
         $version = @file_get_contents("version.txt");
