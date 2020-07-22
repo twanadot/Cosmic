@@ -36,7 +36,7 @@
    </article>
    {% for reaction in data.requests.reactions %}
    <article class="default-section">
-      <div class="aside-title-content">{{locale.request_react_on}} {{data.requests.subject}}</div>
+      <h3 class="aside-title">{{locale.request_react_on}} {{data.requests.subject}}</h3>
       <div class="aside-content">
           <div class="forum-post">
              <div class="forum-author">
@@ -70,7 +70,7 @@
    {% if data.requests.status != "closed" %}
       {% if data.requests.latest.practitioner_id != player.id and data.requests.latest != null  %}
       <article class="default-section">
-          <div class="aside-title-content">{{locale.request_react}}</div>
+          <h3 class="aside-title">{{locale.request_react}}</h3>
           <div class="aside-content">
               <form action="help/requests/createpost" method="post">
                 <div class="row space-bottom">
@@ -87,7 +87,7 @@
 
    {% else %}
    <article class="default-section">
-      <div class="aside-title-content">{{locale.request_contact}}</div>
+      <h3 class="aside-title">{{locale.request_contact}}</h3>
       <div class="aside-content">
           {{locale.request_contact_help}}
           <p style="text-align: center; margin-top: 30px;"><a href="/help/requests/new" class="rounded-button blue">{{locale.request_new_ticket}}</a></p>

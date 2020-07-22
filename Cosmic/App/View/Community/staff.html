@@ -13,8 +13,8 @@
                 {% for employee in data %}
                 {% if employee.users is not empty %}
                 <article class="default-section">
-                      <div class="aside-title-content">{{employee.rank_name}}</div>
-                      {% if action == "team" %}<div class="aside-desc-content">{{employee.rank_description}}</div>{% endif %}
+                      <h3 class="aside-title">{{employee.rank_name}}</h3>
+                      {% if action == "team" %}<h3 class="aside-title">{{employee.rank_description}}</h3>{% endif %}
                       <div class="aside-content">
 
                       <div class="members-container">
@@ -43,8 +43,8 @@
             </div>
 
             <div class="right-side">
-                <article class="default-section">
-                    <h3 class="aside-title-content">{{locale.title}}</h3>
+                <article class="default-section"> 	
+                    <h3 class="aside-title">{{locale.title}}</h3>
                     <div class="aside-content">
                         <div class="sides-container">
                             <img src="/assets/images/web/pages/staff/staff.gif" style="float:right">

@@ -11,8 +11,7 @@
 <div class="page-content">
     <div class="left-side">
         <article class="default-section">
-            <div class="aside-title-content">{{article.title}}</div>
-            <div class="aside-desc-content">{{article.short_story}}</div>
+            <h3 class="aside-title">{{article.title}}</h3>
             <div class="aside-content">
                 {% if article.images is not empty %}
                 <img src="{{article.images}}" style="float:right">
@@ -43,7 +42,7 @@
     <div class="right-side">
 
        <aside class="default-section">
-            <div class="aside-title-content">{{locale.reactions}}</div>
+            <h3 class="aside-title">{{locale.reactions}}</h3>
             <div class="aside-content">
             <div class="nano has-scrollbar related-articles-container" style="height: 250px;">
                 <div class="nano-content" tabindex="0">
@@ -94,7 +93,7 @@
         </aside>
 
         <aside class="default-section">
-            <div class="aside-title-content">{{locale.latest_news}}</div>
+            <h3 class="aside-title">{{locale.latest_news}}</h3>
             <div class="aside-content">
                 <div class="related-articles-container">
                     {% for item in latest_news %}

@@ -11,7 +11,7 @@
 <div class="page-content">
     <div class="left-side">
         <article class="default-section">
-            <div class="aside-title-content">{{site.shortname}} {{locale.club_benefits}}</div>
+            <h3 class="aside-title">{{site.shortname}} {{locale.club_benefits}}</h3>
             <div class="aside-content">
                 
                 {{content|raw}}
@@ -35,7 +35,7 @@
             {% endfor %}
         </div>
         <aside class="default-section">
-            <div class="aside-title-content">{{locale.club_buy}}</div>
+            <h3 class="aside-title">{{locale.club_buy}}</h3>
             <div class="aside-content">
                 <form action="shop/club/buy">
                     <center><button class="rounded-button blue">
@@ -46,7 +46,7 @@
         </aside>
 
         <aside class="default-section">
-            <div class="aside-title-content">{{locale.more_information}}</div>
+            <h3 class="aside-title">{{locale.more_information}}</h3>
             <div class="aside-content">
                 <p>{{locale.content_1}} {{locale.content_2}} <a href="/help/requests/new">{{locale.help_tool}}</a>.</p>
             </div>
@@ -54,7 +54,7 @@
 
         {% if data.vip is not empty %}
         <aside class="default-section">
-            <div class="aside-title-content">{{locale.random_club_users}}</div>
+            <h3 class="aside-title">{{locale.random_club_users}}</h3>
             <div class="aside-content">
                 <div class="members-container">
                     {% for player in data.vip %}

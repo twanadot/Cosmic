@@ -25,12 +25,12 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/assets/css/bbeditor.css" type="text/css" />
-    <link rel="stylesheet" href="/assets/css/fonts.css">
+    <link rel="stylesheet" href="/assets/css/fonts.css?v=5">
     <link rel="stylesheet" href="/assets/css/flaticon.css">
     <link rel="stylesheet" href="/assets/css/magnific-popup.css">
     <link rel="stylesheet" href="/assets/css/selectric.css">
     <link rel="stylesheet" href="/assets/css/circle.css?v=5">
-    <link rel="stylesheet" href="/assets/css/web.{% if player %}{{player.template}}{% else %}{% if template %}{{template}}{% else %}light{% endif %}{% endif %}.css?v=10">
+    <link rel="stylesheet" href="/assets/css/style.css?v=3">
     <link rel="stylesheet" href="/assets/css/web.responsive.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -159,7 +159,7 @@
     </div>
     {% endif %}
 
-    <header class="header-container pixelated is-small">
+    <header id="header" class="header-container pixelated is-small is-logged">
         <div class="header-content"> 
             <div class="logo"><a href="/home"><img src="https://habbofont.net/font/hma/{{site.shortname}}.gif"
                         style="margin-top: 30px;"></a></div>
@@ -182,8 +182,12 @@
         </div>
     </header>
 
-    <nav class="navigation-container">
-        <ul class="navigation-menu flex-container">
+  
+   <nav class="navigation-container">
+<ul class="navigation-menu flex-container">
+<li class="navigation-item main-link-item">
+<a href="https://www.habbix.ws/home">{{locale_base.nav_home}}</a>
+</li>
             <li class="navigation-item {% if "home" in page %}selected {% endif %}" data-category="home"><a
                     href="/home">{{locale_base.nav_home}}</a></li>
             <li class="navigation-item has-items {% if "community" in page %}selected {% endif %}"
