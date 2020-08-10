@@ -103,7 +103,6 @@ class Player
         );
 
         $user_id = QueryBuilder::table('users')->setFetchMode(PDO::FETCH_CLASS, get_called_class())->insert($data);
-        QueryBuilder::table('users_settings')->insert(array('user_id' => $user_id, 'home_room' => '0'));
 
         return $user_id;
     }
