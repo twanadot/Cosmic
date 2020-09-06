@@ -5,6 +5,7 @@ use App\Config;
 
 use App\Models\Core;
 use App\Models\Room;
+use App\Models\Player;
 
 use Library\HotelApi;
 use Library\Json;
@@ -105,6 +106,27 @@ class Api
             response()->json(["status" => "success",  "replacepage" => "hotel"]);
         }
       
+    }
+
+    public function user($callback, $username)
+    {
+        $user = Player::getDataByUsername($username);
+        if(!$user) {
+            response()->json([
+                'error' => 'User not found'
+            ]);
+        }
+
+        $response = [
+            'username'  => $user->username,
+            'motto'     => $user->motto,
+            'credits'   => $user->credits,
+            'look'      => $user->look,
+            'duckets'   => Player::getUserCurrencys($user->id, 0)->amount,
+            'diamonds'  => Player::getUserCurrencys($user->id, 5)->amount
+        ];
+
+        response()->json($response);
     }
   
     public function online()
