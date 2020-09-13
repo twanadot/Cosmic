@@ -61,10 +61,11 @@ function request(): Request
 
 function input($index = null, $defaultValue = null, ...$methods)
 {
-    if ($index !== null) {
-        return request()->getInputHandler()->value($index, $defaultValue, ...$methods);
+    if (is_null($index)) {
+        return request()->getInputHandler();
     }
-    return request()->getInputHandler();
+    
+    return request()->getInputHandler()->value($index, $defaultValue, ...$methods);
 }
 
 /**
@@ -85,9 +86,5 @@ function redirect(string $url, ?int $code = null): void
  */
 function csrf_token(): ?string
 {
-    $baseVerifier = Router::router()->getCsrfVerifier();
-    if ($baseVerifier !== null) {
-        return $baseVerifier->getTokenProvider()->getToken();
-    }
-    return null;
+    return Router::router()->getCsrfVerifier()->getTokenProvider()->getToken();
 }
