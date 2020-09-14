@@ -86,5 +86,9 @@ function redirect(string $url, ?int $code = null): void
  */
 function csrf_token(): ?string
 {
-    return Router::router()->getCsrfVerifier()->getTokenProvider()->getToken();
+    $baseVerifier = Router::router()->getCsrfVerifier();
+    if (!is_null($baseVerifier)) {
+        return $baseVerifier->getTokenProvider()->getToken();
+    }
+    return null;
 }
