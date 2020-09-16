@@ -241,7 +241,6 @@ function WebPagesManagerInterface() {
 
         this.page_container = $(".page-container");
         this.current_page_url = window.location.pathname.substr(1) + window.location.search;
-
         this.current_page_interface = new WebPageInterface(this, this.page_container.attr("data-page"));
         this.current_page_interface.assign_interface();
 
@@ -274,7 +273,12 @@ function WebPagesManagerInterface() {
     this.push = function (url, title, history_replace) {
         url = url.replace(/^\/|\/$/g, "");
         this.current_page_url = url;
-
+  
+        if (this.current_page_url.indexOf('profile') > -1) {
+        } else {
+             $(".page-container").removeAttr('style')
+        }
+      
         if (!history_replace) {
             History.pushState(null, title ? title : Site.name, "/" + url);
         } else {

@@ -28,14 +28,15 @@
     <link rel="stylesheet" href="/assets/css/fonts.css">
     <link rel="stylesheet" href="/assets/css/flaticon.css">
     <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/homes.css?v=88">
     <link rel="stylesheet" href="/assets/css/selectric.css">
     <link rel="stylesheet" href="/assets/css/circle.css?v=5">
-    <link rel="stylesheet" href="/assets/css/web.{% if player %}{{player.template}}{% else %}{% if template %}{{template}}{% else %}light{% endif %}{% endif %}.css?v=10">
+    <link rel="stylesheet" href="/assets/css/web.{% if player %}{{player.template}}{% else %}{% if template %}{{template}}{% else %}light{% endif %}{% endif %}.css?v=42">
     <link rel="stylesheet" href="/assets/css/web.responsive.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   
-    <script src="/assets/js/jquery-3.2.1.min.js"></script>
+     <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
     <script src="/assets/js/jquery.ui.touch-punch.min.js"></script>
     <script src="https://www.google.com/recaptcha/api.js"></script>
   
@@ -114,7 +115,7 @@
         <h1 class="aside-title">{{site.sitename}}</h1>
         <p>{{locale_base.thanks_for_playing}} {{site.shortname}}!<br>{{site.shortname}} {{locale_base.made_with_love}}
             ♥<br><br>
-            <h4>Cosmic 2.0.0</h4>{{locale_base.credits}}
+            <h4>Cosmic 2.1.0</h4>Raizer
         </p>
 
         <h5>{{locale_base.and_all}} {{site.shortname}}'s ♥</h5>
@@ -303,9 +304,11 @@
     <script src="/assets/js/jquery.magnific-popup.js"></script>
     <script src="/assets/js/selectric.js?v=3412"></script>
     <script src="/assets/js/functions.js"></script>
-    <script src="/assets/js/web/loading.js"></script>
+    <script src="/assets/js/web/loading.js?v={{date().timestamp}}"></script>
     <script src="/assets/js/pagination.js"></script>
     <script src="/assets/js/jquery.wysibb.js"></script>
+  
+    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
 
 </body>
 

@@ -2202,11 +2202,19 @@ input:-webkit-autofill {
     clear: left;
 }
 
+.page-container[data-page="profile"] .page-content .right-side {
+    width: 330px;
+    float: right;
+    clear: right;
+    position: absolute;
+}
+
 .page-container .page-content .right-side {
     width: 330px;
     float: right;
     clear: right;
 }
+
 
 .aside-title-content {
     font: 600 16.5px "Poppins", "Roboto", sans-serif;
@@ -2330,7 +2338,8 @@ input:-webkit-autofill {
     background-color: #f9f9f9;
 }
 
-.page-container[data-page="home"] .page-content .button {
+.page-container[data-page="profile"] .page-header-content .button, 
+.page-container[data-page="profile"] .page-content .button {
     color: #222;
     outline: none;
     padding: 5px;

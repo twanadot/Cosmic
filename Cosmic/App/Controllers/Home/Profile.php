@@ -5,6 +5,7 @@ use App\Config;
 use App\Helper;
 use App\Models\Community;
 use App\Models\Player;
+use App\Models\Profiles;
 
 use Core\Locale;
 use Core\View;
@@ -15,8 +16,6 @@ use stdClass;
 
 class Profile
 {
-    private $data;
-
     public function __construct()
     {
         $this->data = new stdClass();
@@ -35,6 +34,7 @@ class Profile
             redirect('/');
             exit;
         }
+      
 
         $this->data->player = $player;
         $this->data->player->last_online = $this->data->player->last_online;
@@ -56,6 +56,10 @@ class Profile
         $this->data->player->feeds = Community::getFeedsByUserid($player->id);
         $this->data->player->feedCount = count($this->data->player->feeds);
         $this->data->player->feedCountTotal = count($this->data->player->feeds);
+      
+        $this->data->player->widgets = Profiles::getWidgets($player->id);
+        $this->data->player->background = Profiles::getBackground($player->id);
+        $this->data->player->notes = Profiles::getNotes($player->id);
 
         foreach ($this->data->player->feeds as $row) {
             $row->likes = Community::getLikes($row->id);
@@ -87,13 +91,55 @@ class Profile
 
         response()->json(["replacepage" => "profile/" . input()->post('search')->value]);
     }
+  
+    public function store()
+    {
+        if(!request()->player->id) {
+            response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
+        }
+      
+        $categorys = Profiles::getCategorys();
+        $items = Profiles::getItems(input()->post('data')->value);
+      
+        response()->json(["items" => $items, "categorys" => $categorys]);
+    }
+  
+    public function remove() 
+    {
+        if(!request()->player->id) {
+            response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
+        }
+      
+        Profiles::remove(request()->player->id, input()->post('id')->value, input()->post('type')->value);
+        response()->json(["status" => "success", "message" => "Widget deleted!"]); 
+    }
 
+    public function save()
+    {
+        if(!request()->player->id) {
+            response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
+        }
+      
+        $items = json_decode(input()->post('draggable')->value);
+        foreach($items as $i => $v){
+            if(Profiles::hasWidget(request()->player->id, $v[0])) {
+                Profiles::update(request()->player->id, $v[0], $v[1], $v[2], $v[3], $v[4]);
+            } else {
+                Profiles::insert(request()->player->id, $v[0], $v[1], $v[2], $v[3], $v[4]);
+            }
+        }
+      
+        Profiles::saveBackground(request()->player->id, input()->post('background')->value);
+      
+        response()->json(["status" => "success", "message" => "Homepage successfully saved."]);
+    }
+  
     public function template()
     {
         View::renderTemplate('Home/profile.html', [
-            'title' => $this->data->player->username,
-            'page'  => 'profile',
-            'data'  => $this->data
+         'title' => $this->data->player->username,
+         'page'  => 'profile',
+         'data'  => $this->data,
         ]);
     }
 }

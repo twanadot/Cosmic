@@ -512,274 +512,189 @@ function WebPageHelpRequestsInterface(main_page)
     };
 }
 
-function WebPageProfileInterface(main_page)
-{
-    var loadmore = true;
+function WebPageProfileInterface(main_page){
     this.main_page = main_page;
-
-    this.article_template = [
-        '<div class="feed-item" data-id="{feed.id}" id="{feed.id}">\n' +
-        '   <div class="fi-avatar logo" style="margin-right: 0; height: 60px; margin-top: -7px;">\n' +
-        '       <div style="background: url(' + Site.figure_url + '/avatar/imaging/avatarimage?figure={{figure}}&direction=3&headonly=1) no-repeat center; width: 48px; height: 62px;"></div>\n' +
-        '   </div>\n' +
-        '   <div class="fi-content">\n' +
-        '   <div class="fc-user">\n' +
-        '   <strong><div class="user-style"><span class="user-style black"><span class="user-icon cog"></span>{{feed.from_username}}</span></div></strong>\n' +
-        '     - <span data-toggle="tooltip" data-placement="right" title="" data-original-title="{{feed.timestamp|time_diff}}"><small>{{feed.timestamp}}</small></span>\n' +
-        '   </div>\n' +
-        '   <div class="fc-content">{feed.message}</div>\n' +
-        '   <div class="fc-tools" data-id="{feed.id}">\n' +
-        '       <a href="#" class="likes-count fc-like" data-id="{feed.id}">{{feed.likes}}</a> <a href="#" class="fc-like" data-id="{feed.id}" style="margin-right:10px;"><i class="fa fa-heart"  data-id="{feed.id}" style="color: #D67979;"></i></a>\n' +
-        '      <a href="#"><i class="fa fa-flag" data-id="{feed.id}" data-report="feed" style="color: #7B7777;"></i></a>&nbsp;\n' +
-        '   </div>' +
-        '</div>'
-    ].join("");
-    this.current_page = 1;
-
-    function urlFunc(str, p1, offset, s) {
-        return '<a href="'+ p1+ '">' + offset + '</a>';
-    }
-
-    function urlReplace(str)
-    {
-        var bbcode =  [
-            /\[url=(.*?)\](.*?)\[\/url\]/ig,
-        ];
-
-        var format_replace = [
-            urlFunc
-        ];
-
-        for (var i =0;i<bbcode.length;i++) {
-            str = str.replace(bbcode[i], format_replace[i]);
-        }
-
-        return str;
-    }
-
-
-    /*
-    * Generic function
-    * */
-    this.init = function ()
+ 
+    this.init = function()
     {
         var self = this;
         var page_container = this.main_page.get_page_container();
 
-        // Init photos gallery
-        page_container.find(".default-section[data-section = 'photos'] .items-container").magnificPopup({
-            delegate: "a",
-            type: "image",
-            closeOnContentClick: false,
-            closeBtnInside: false,
-            mainClass: "mfp-with-zoom mfp-img-mobile report",
-            image: {
-                verticalFit: true,
-                titleSrc: function (item)
-                {
-                    if(User.id == item.el.attr("data-player")) {
-                        return '<i class="fa fa-times-circle" data-id="' + item.el.attr("data-id") + '" style="color: #fff;"></i> <i class="fa fa-flag" data-report="photo" data-value="photos" data-id="' + item.el.attr("data-id") + '" style="color: #fff;"></i> ' + item.el.attr("data-title");
-                    } else {
-                        if(User.is_logged == true) {
-                            return '<i class="fa fa-flag" data-report="photo" data-value="photos" data-id="' + item.el.attr("data-id") + '" style="color: #fff;"></i> ' + item.el.attr("data-title");
-                        } else {
-                            return item.el.attr("data-title");
-                        }
-                    }
-                }
-            },
-            gallery: {
-                enabled: true
-            },
-            zoom: {
-                enabled: true,
-                duration: 300,
-                opener: function (element)
-                {
-                    return element.find("div");
-                }
-            }
-        });
+        var stickers = [
+            '<div class="dialog-popup" style="width: 744px; max-width: 850px;">\n' +
+            '<div class="sidenav">' +
+            '</div>' +
+            '<div class="main">' +
+            '</div>' +
+            '</div>'
+        ].join("");
+      
+        var template = [
+            '<div class="dialog-popup" style="width: 744px; max-width: 850px;">\n' +
+            '    <div class="notification-content" style="overflow-y:scroll; height: 400px"></div>\n' +
+            '</div>'
+        ].join("");
+      
+        this.backgrounds_template = [
+          '<img src="/assets/images/profile_backgrounds/{{image.url}}" class="bgImage" data-id="{{id}}" height="75" width="75">\n'
+        ].join("");
+      
+        // Change background
+        if($(".page-content").attr('data-background')) {
+            page_container.css('background', 'url(/assets/images/profile_backgrounds/' + $(".page-content").attr('data-background') + ')');
+        }
+      
+        page_container.find(".saveProfile").click(function() {
+          
+            var arr = [];
+          
+            page_container.find(".editActive").hide();
+            page_container.find(".editProfile").show();
 
-        page_container.find(".fa-heart").click(function ()
-        {
-            if(loadmore == true)
-            {
-                addLike($(this).attr("data-id"));
-            }
-        });
-
-        page_container.find(".fa-remove").click(function () {
-            var feedid = $(this).attr("data-id");
-
-            Web.ajax_manager.post("/community/feeds/delete", {feedid: feedid});
-        });
-
-        /*
-        * Loadmore function
-        * */
-        page_container.find(".load-more-button button").click(function ()
-        {
-            var userId = $(this).attr("data-id");
-            var countdivs = $('.feed-item').length;
-            Web.ajax_manager.post("/community/feeds/more", {current_page: self.current_page, player_id: userId, count: countdivs}, function (result)
-            {
-                if (result.feeds.length > 0)
-                {
-                    for (var i = 0; i < result.feeds.length; i++)
-                    {
-                        var feed_data = result.feeds[i];
-                        var postmessage = urlReplace(feed_data.message);
-                        var article_template = $(self.article_template.replace(/{{feed.from_username}}/g, feed_data.from_username).replace(/{{feed.timestamp}}/g, feed_data.timestamp).replace(/{feed.id}/g, feed_data.id).replace(/{{feed.to_username}}/g, feed_data.to_username).replace(/{feed.message}/g, postmessage).replace(/{{feed.likes}}/g, feed_data.likes).replace(/{{feed.countreactions}}/g, feed_data.countreactions).replace(/{{figure}}/g, feed_data.figure).replace(/{{feed.profile}}/g, feed_data.profile));
-						
-                        page_container.find(".feeds").append(article_template);
-
-                        page_container.find(".fc-like[data-id=" + feed_data.id + "]").click(function ()
-                        {
-                            addLike($(this).attr("data-id"));
-                        });
-
-                    }
-
-                    self.current_page = result.current_page;
-                }
-
+            $('.widget').each(function(i, obj) {
+                
+                var id    = $(this).attr('data-id')
+                var top   = $(this).attr('data-top');
+                var left  = $(this).attr('data-left');
+                var skin  = $(this).attr('data-skin');
+                var type  = $(this).attr('data-type');
+              
+                arr.push([id,top,left,skin,type]);
             });
-        });
-    };
 
-    function addLike(id)
-    {
-        if(User.is_logged == true)
-        {
-            Web.ajax_manager.post("/community/feeds/like", {post: id}, function (result)
-            {
-                if(result.status == 'success')
-                {
-                    $('.fa-heart[data-id='+ id +']').addClass("pulsateOnce");
-                    $('.likes-count[data-id='+ id +']').text(parseInt($('.likes-count[data-id='+ id +']').text())+1);
+            Web.ajax_manager.post("/home/profile/save", {draggable: JSON.stringify(arr), background: $(".page-content").attr('data-background')});
+        });
+      
+        page_container.find(".icon-edit").click(function(e) {
+            
+            var id = $(this).attr('data-id');
+          
+            page_container.find("#" + id + '-menu').show();
+          
+            page_container.find(".selectSkin[data-id=" + id + "]").unbind( "click" ).click(function(e) {
+                if($(this).val() !== null) {
+                  
+                    $(".widget[data-ids=" + id + "]").removeClass('widget_' + $(".widget[data-ids=" + id + "]").attr('data-skin'));
+                    $(".widget[data-ids=" + id + "]").addClass('widget_' + $(this).val());
+                    $(".widget[data-ids=" + id + "]").attr('data-skin', $(this).val());
+                  
                 }
             });
-        }
-        else
-        {
-            Web.notifications_manager.create("error", Locale.web_page_profile_login, Locale.web_page_profile_loggedout);
-        }
-    }
-
-    function addPost(message, id)
-    {
-        Web.ajax_manager.post("/community/feeds/post", {reply: message, userid: id});
-    }
-
-    $($('.rounded-input')).on('keypress', function(e) {
-        var code = e.keyCode || e.which;
-        if(code==13){
-            addPost($('.rounded-input').val(), $("input[name=userid]").val());
-        }
-    });
-}
-
-function WebPageCommunityPhotosInterface(main_page) {
-    var loadmore = true;
-
-    this.main_page = main_page;
-    this.photo_template = [
-        '<div class="photo-container" style="display: none;">\n' +
-        '    <div class="photo-content">\n' +
-        '        <a href="{story}" class="photo-picture" target="_blank" style="background-image: url({story});" data-title="{photo.date.min} door {creator.username}"></a>\n' +
-        '        <a href="#" class="photo-meta flex-container flex-vertical-center">\n' +
-        '            <div class="photo-meta-left-side"><img src="/imaging/avatarimage?figure={creator.figure}&gesture=sml&headonly=1" alt="{creator.username}" class="pixelated"></div>\n' +
-        '            <div class="photo-meta-right-side">\n' +
-        '                <div class="creator-name">{creator.username}</div>\n' +
-        '                <div class="published-date">{photo.date.full}</div>\n' +
-        '                <span class="likes-count fc-like" data-id="{photo._id}">{photo.likes}</span> <i class="fa fa-heart" data-id="{photo._id}" style="color: #D67979;"></i>  <i class="fa fa-flag" data-id="{photo._id}" data-report="photo" style="color: #7B7777;"></i>' +
-        '            </div>\n' +
-        '        </a>\n' +
-        '    </div>\n' +
-        '</div>'
-    ].join("");
-    this.current_page = 1;
-
-    /*
-    * Generic function
-    * */
-    this.init = function () {
-        var self = this;
-        var page_container = this.main_page.get_page_container();
-
-        // Init photos gallery
-        page_container.find(".photos-container").magnificPopup({
-            delegate: "a.photo-picture",
-            type: "image",
-            closeOnContentClick: false,
-            closeBtnInside: false,
-            mainClass: "mfp-with-zoom mfp-img-mobile",
-            image: {
-                verticalFit: true,
-                titleSrc: function (item) {
-                    if (User.is_logged == true) {
-                        return '<i class="fa fa-flag" data-value="photos" data-id="' + item.el.attr("data-id") + '" data-report="photo" style="color: #fff;"></i> ' + item.el.attr("data-title");
-                    } else {
-                        return item.el.attr("data-title");
-                    }
-                }
-            },
-            gallery: {
-                enabled: true
-            },
-            zoom: {
-                enabled: true,
-                duration: 300,
-                opener: function (element) {
-                    return element;
-                }
-            }
-        });
-
-        page_container.find(".fa-heart").click(function () {
-            if (loadmore == true) {
-                addPhotoLike($(this).attr("data-id"));
-            }
-        });
-
-        // Load more photos
-        page_container.find(".load-more-button button").click(function () {
-            var countdivs = $('.photo-container').length;
-            Web.ajax_manager.post("/community/photos/more", {
-                current_page: self.current_page,
-                offset: countdivs
-            }, function (result) {
-                if (result.photos.length > 0) {
-                    for (var i = 0; i < result.photos.length; i++) {
-                        var photo_data = result.photos[i];
-                        var photo_template = $(self.photo_template.replace(/{story}/g, photo_data.url).replace(/{photo._id}/g, photo_data.id).replace(/{photo.likes}/g, photo_data.likes).replace(/{photo.date.full}/g, photo_data.timestamp).replace(/{photo.date.min}/g, photo_data.timestamp).replace(/{creator.username}/g, photo_data.author).replace(/{creator.figure}/g, photo_data.look));
-                        page_container.find(".photos-container").append(photo_template);
-                        photo_template.fadeIn();
-
-                        page_container.find(".fa-heart[data-id=" + photo_data.id + "]").click(function () {
-                            addPhotoLike($(this).attr("data-id"));
-                        });
-                    }
-
-                    self.current_page = result.current_page;
-                }
-            });
-        });
-
-        function addPhotoLike(id) {
-            if (User.is_logged == true) {
-                Web.ajax_manager.post("/community/photos/like", {post: id}, function (result) {
-                    if (result.status == 'success') {
-                        $('.fa-heart[data-id=' + id + ']').addClass("pulsateOnce");
-                        $('.likes-count[data-id=' + id + ']').text(parseInt($('.likes-count[data-id=' + id + ']').text()) + 1);
+          
+            page_container.find(".deleteElement[data-id=" + id + "]").unbind( "click" ).click(function(e) {
+                Web.ajax_manager.post("/home/profile/remove", {id: $(this).attr('data-id'), type: $(this).attr('data-type')}, function(result) {
+                    if(result.status == "success") {
+                        $(".widget[data-ids=" + id + "]").remove();
                     }
                 });
-            } else {
-                Web.notifications_manager.create("error", Locale.web_page_community_photos_login, Locale.web_page_community_photos_loggedout);
-            }
-        }
-    };
+            });
+          
+            $(document).mouseup(function (e) { 
+                if(!$(e.target).hasClass('selectSkin')) {
+                    if ($(e.target).closest(".page-contianer").length === 0) { 
+                        page_container.find("#" + id + '-menu').hide();
+                    }
+                }
+            });
+          
+        }); 
+        
+        page_container.find(".addWidget").click(function() {
+        });
+      
+        page_container.find(".editProfile").click(function() {
+          
+            page_container.find(".editActive").show();
+            page_container.find(".editProfile").hide();
+          
+            $('.widget').draggable(
+            {
+                containment: $('.page-container'),
+                stop: function(){
+                    $(this).attr('data-top', $(this).css("top").replace('px', ''))
+                    $(this).attr('data-left', $(this).css("left").replace('px', ''))
+                }
+            });
+
+            page_container.find(".addSticker").click(function() {
+                Web.ajax_manager.post("/home/profile/store", {data: 's'}, function(data) {
+
+                    var dialog = $(stickers);
+
+                    $.magnificPopup.open({
+                        items: {
+                            src: dialog,
+                            type: 'inline'
+                        }
+                    });
+                  
+                    // Create sidebar categorys
+                    if (data.categorys.length > 0) {
+                        for (var i = 0; i < data.categorys.length; i++) {
+                          
+                            var category = data.categorys[i];
+                          
+                            dialog.find(".sidenav").append('<a href="#" data-category="' +  category.id +'">' +  category.name +'</a>');
+                            dialog.find(".main").append('<div class="' +  category.id +'" style="font-size: 22px; display: none"><b>' +  category.name +'</b><br /><br /></div>');
+                        
+                            dialog.find(".sidenav a[data-category=" + category.id + "]").click(function() {
+                                dialog.find(".main").children().hide();
+                                dialog.find(".main div[class=" + $(this).attr("data-category") + "]").show();
+                            });
+                        }
+                    }
+                  
+                    // Create items
+                    if (data.items.length > 0) {
+                        for (var x = 0; x < data.items.length; x++) {
+                            var items = data.items[x];
+                            dialog.find('.' +  items.category +'').append('<img src="/assets/images/homestickers/' +  items.data +'.gif" class="stickerImage" data-name="' +  items.data +'" data-id="' +  items.id +'" height="34" width="34">');
+                        
+                            dialog.find(".main img[data-id=" + items.id + "]").click(function() {
+                                $('<img src="' + $(this).attr("src") + '" class="widget" data-id="' + $(this).attr("data-name") + '.gif" data-type="s" style="position: relative;"></div>').appendTo('.page-content').draggable({
+                                containment: $('.page-container'),
+                                stop: function(){
+                                      $(this).attr('data-top', $(this).css("top").replace('px', ''))
+                                      $(this).attr('data-left', $(this).css("left").replace('px', ''))
+                                  }
+                                });
+                                $.magnificPopup.close();
+                            });
+                        }
+                    }
+                  
+                });
+            });
+          
+            page_container.find(".changeBg").click(function() {
+                Web.ajax_manager.post("/home/profile/store", {data: 'b'}, function(data) {
+
+                    var dialog = $(template);
+
+                    $.magnificPopup.open({
+                        items: {
+                            src: dialog,
+                            type: 'inline'
+                        }
+                    });
+
+                    if (data.items.length > 0) {
+                        for (var i = 0; i < data.items.length; i++) {
+
+                            var background = data.items[i];
+                            var backgroundInsert = $(self.backgrounds_template.replace(/{{image.url}}/g, background.data).replace(/{{id}}/g, background.id));
+                            dialog.find(".notification-content").append(backgroundInsert);
+
+                            dialog.find(".bgImage[data-id=" + background.id + "]").click(function () {
+                                page_container.css('background', 'url(' + $(this).attr("src") + ')');
+                                page_container.find('.page-content').attr('data-background', $(this).attr("src").replace('/assets/images/profile_backgrounds/', ''));
+                            });
+                        }
+                    }
+                });
+            });
+        })
+    }
 }
 
 function WebPageHomeInterface(main_page)

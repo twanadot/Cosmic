@@ -144,7 +144,7 @@ class Player
 
     public static function getFriends($user_id, $limit = 5)
     {
-        return QueryBuilder::query('SELECT users.look, users.username FROM messenger_friendships JOIN users ON messenger_friendships.user_one_id = users.id WHERE user_two_id = "' . $user_id .'"  ORDER BY RAND() LIMIT  ' . $limit)->get();
+        return QueryBuilder::query('SELECT users.look, users.username FROM messenger_friendships JOIN users ON messenger_friendships.user_one_id = users.id WHERE user_two_id = "' . $user_id .'"')->get();
     }
 
     public static function getMyOnlineFriends($user_id)

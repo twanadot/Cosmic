@@ -35,7 +35,7 @@ class Config
 
     const site = array(
       'domain'      => 'cosmicproject.online',
-      'cpath'       => 'https://images.cosmicproject.online/library',
+      'cpath'       => 'https://images.projectmeteor.online',
       'fpath'       => 'https://habbo.com.br/habbo-imaging',
       'shortname'   => 'Cosmic',
       'sitename'    => 'Cosmic'
