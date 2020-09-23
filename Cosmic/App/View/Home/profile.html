@@ -4,8 +4,8 @@
    <div class="page-header-content">
       <h1>{{locale.title}} {{data.player.username}} <a onclick="openSearch()" style="border: none;color:#000; cursor: pointer"><i class="fa fa-search"></i></a></h1>
       {% if player.username == data.player.username %}
-      <a href="#" class="editProfile button">Edit profile</a>
-      <div class="editActive" style="display: none">
+      {% if data.type != "edit" %}<a href="#" class="editProfile button">Edit profile</a>{% endif %}
+      <div class="editActive" {% if data.type != "edit" %}style="display: none" {% endif %}>
          <a href="#" class="saveProfile button">Save profile</a>
          <a href="#" class="changeBg button">Change background</a>
          <a href="#" class="addSticker button">Add sticker</a>

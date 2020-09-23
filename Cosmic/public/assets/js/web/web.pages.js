@@ -529,6 +529,11 @@ function WebPageProfileInterface(main_page){
             '</div>'
         ].join("");
       
+        var widgets = [
+            '<div class="dialog-popup" style="width: 275px;">\n' +
+            '</div>'
+        ].join("");
+      
         var template = [
             '<div class="dialog-popup" style="width: 744px; max-width: 850px;">\n' +
             '    <div class="notification-content" style="overflow-y:scroll; height: 400px"></div>\n' +
@@ -600,6 +605,28 @@ function WebPageProfileInterface(main_page){
         }); 
         
         page_container.find(".addWidget").click(function() {
+          
+           var dialog = $(widgets);
+
+            $.magnificPopup.open({
+                items: {
+                    src: dialog,
+                    type: 'inline'
+                }
+            });
+
+            Web.ajax_manager.post("/home/profile/store", {data: 'w', type: null}, function(data) {
+                $.each(data.widgets, function(index, value) {
+                    dialog.append('<a href="#" data-name="' +  value +'" class="widgetButton btn form-control" style="margin-top: 5px">' + value + '</a>');
+                  
+                    dialog.find(".widgetButton[data-name=" + value + "]").click(function() {
+                        Web.ajax_manager.post("/home/profile/store", {data: 'w', type: 'p', add: $(this).attr('data-name')}, function(data) {
+                            setTimeout(function(){ page_container.find(".editProfile").click(); }, 500);
+                        });
+                        $.magnificPopup.close();
+                    });
+                });
+            });
         });
       
         page_container.find(".editProfile").click(function() {

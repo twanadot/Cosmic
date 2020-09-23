@@ -417,6 +417,29 @@ h2.note_title {
   .home-widget {
     position: static;
   }
+  
+  .widget {
+    position: static !important;
+  }
+  .page-container[data-page=profile] .page-content .right-side {
+      position: static !important;
+      float: none !important;
+      width: 500px !important;
+  }
+}
+@media (max-width: 560px) {
+  .home-widget {
+    position: static;
+  }
+  
+  .widget {
+    position: static !important;
+  }
+  .page-container[data-page=profile] .page-content .right-side {
+      position: static !important;
+      float: none !important;
+      width: 300px !important;
+  }
 }
 @media (min-width: 980px) {
   .home-widget {

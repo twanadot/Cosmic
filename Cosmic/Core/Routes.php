@@ -43,7 +43,6 @@ class Routes extends Router
      
             Router::get('/profile', 'Home\Proficle@profile');
             Router::get('/profile/{user}', 'Home\Profile@profile', ['defaultParameterRegex' => '[a-zA-Z0-9\d\-_=\?!@:\.,]+']);
-            Router::get('/profile/{user}/edit', 'Home\Profile@profile', ['defaultParameterRegex' => '[a-zA-Z0-9\d\-_=\?!@:\.,]+']);
           
             Router::post('/profile/search', 'Home\Profile@search');
 

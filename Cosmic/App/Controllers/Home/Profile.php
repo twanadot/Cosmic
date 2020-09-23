@@ -4,6 +4,7 @@ namespace App\Controllers\Home;
 use App\Config;
 use App\Helper;
 use App\Models\Community;
+use App\Models\Core;
 use App\Models\Player;
 use App\Models\Profiles;
 
@@ -16,14 +17,15 @@ use stdClass;
 
 class Profile
 {
+    private $myWidgets = [];
+  
     public function __construct()
     {
         $this->data = new stdClass();
     }
 
-    public function profile($username = null)
+    public function profile($username)
     {
-      
         if($username == null) {
             redirect('/');
             exit;
@@ -60,7 +62,7 @@ class Profile
         $this->data->player->widgets = Profiles::getWidgets($player->id);
         $this->data->player->background = Profiles::getBackground($player->id);
         $this->data->player->notes = Profiles::getNotes($player->id);
-
+      
         foreach ($this->data->player->feeds as $row) {
             $row->likes = Community::getLikes($row->id);
         }
@@ -97,11 +99,27 @@ class Profile
         if(!request()->player->id) {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
         }
-      
+        
+        if(input()->post('data')->value == "w") {
+            
+            $widgets = explode(";", Core::settings()->available_profile_widgets);
+ 
+            foreach($widgets as $widget) {
+                if(!Profiles::hasWidget(request()->player->id, $widget)) {
+                    $myWidgets[] = $widget;
+                }
+            }
+          
+            if(input()->post('type')->value == "p") {
+                Profiles::insert(request()->player->id, input()->post('add')->value, '0', '0', 'default_skin', input()->post('data')->value);
+                response()->json(["status" => "success", "replacepage" => "/profile/" . request()->player->username ]);
+            }
+        }
+
         $categorys = Profiles::getCategorys();
         $items = Profiles::getItems(input()->post('data')->value);
-      
-        response()->json(["items" => $items, "categorys" => $categorys]);
+
+        response()->json(["items" => $items, "categorys" => $categorys, "widgets" => $myWidgets ?? null]);
     }
   
     public function remove() 
@@ -129,7 +147,11 @@ class Profile
             }
         }
       
-        Profiles::saveBackground(request()->player->id, input()->post('background')->value);
+        if(Profiles::hasWidget(request()->player->id, input()->post('background')->value)) {
+            Profiles::saveBackground(request()->player->id, input()->post('background')->value);
+        } else {
+            Profiles::insertBackground(request()->player->id, input()->post('background')->value);
+        }
       
         response()->json(["status" => "success", "message" => "Homepage successfully saved."]);
     }
