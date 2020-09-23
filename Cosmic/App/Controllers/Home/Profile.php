@@ -147,7 +147,7 @@ class Profile
             }
         }
       
-        if(Profiles::hasWidget(request()->player->id, input()->post('background')->value)) {
+        if(Profiles::hasBackground(request()->player->id, input()->post('background')->value)) {
             Profiles::saveBackground(request()->player->id, input()->post('background')->value);
         } else {
             Profiles::insertBackground(request()->player->id, input()->post('background')->value);

@@ -10,6 +10,11 @@ class Profiles
     {
         return QueryBuilder::table('website_profile_homes')->setFetchMode(PDO::FETCH_CLASS, get_called_class())->where('user_id', $user_id)->where('name', $name)->get();
     }
+  
+    public static function hasBackground($user_id)
+    {
+        return QueryBuilder::table('website_profile_homes')->setFetchMode(PDO::FETCH_CLASS, get_called_class())->where('user_id', $user_id)->where('type', 'b')->get();
+    }
 
     public static function getWidgets($user_id)
     {
@@ -21,9 +26,9 @@ class Profiles
         return QueryBuilder::table('website_profile_catalogues')->setFetchMode(PDO::FETCH_CLASS, get_called_class())->where('type', $data)->get();
     }
 
-    public static function getBackground()
+    public static function getBackground($user_id)
     {
-        return QueryBuilder::table('website_profile_homes')->setFetchMode(PDO::FETCH_CLASS, get_called_class())->where('type', 'b')->first();
+        return QueryBuilder::table('website_profile_homes')->setFetchMode(PDO::FETCH_CLASS, get_called_class())->where('type', 'b')->where('user_id', $user_id)->first();
     }
 
     public static function getNotes($user_id)
