@@ -87,7 +87,7 @@
             <div class="input-group reaction-reply">
                 <input type="text" class="form-control" id="reply-message" placeholder="{{locale.reactions_fill}}" required>
                 <span class="input-group-btn">
-                    <button type="submit" class="btn btn-primary article-reply" data-id="{{article.id}}" style="width:64px">{{locale.reactions_post}}</button>
+                    <button type="submit" class="btn btn-primary article-reply" data-csrf="{{csrf_token}}" data-id="{{article.id}}" style="width:64px">{{locale.reactions_post}}</button>
                 </span>
             </div>
             {% endif %}

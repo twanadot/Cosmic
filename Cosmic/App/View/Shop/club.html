@@ -38,6 +38,7 @@
             <div class="aside-title-content">{{locale.club_buy}}</div>
             <div class="aside-content">
                 <form action="shop/club/buy">
+                    <input type="hidden" name="csrftoken" value="{{csrf_token}}">
                     <center><button class="rounded-button blue">
                       {% if data.vip_membership_days == "lifetime" %}{{locale.unlimited}}{% else %}{{data.vip_membership_days}} DAYS {% endif %} ({{data.vip_price}} {{data.vip_type}})
                     </button></center>

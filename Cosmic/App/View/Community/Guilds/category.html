@@ -75,6 +75,7 @@
                     <h5>{{locale.category_description}}</h5>
                     <textarea name="message" id="editor" class="rounded-textarea blue-active"></textarea>
                 </div>
+                <input type="hidden" name="csrftoken" value="{{csrf_token}}">
                 <input type="hidden" name="guild_id" value="{{forums.id}}" />
                 <p style="text-align: center; margin-top: 30px;"><button type="submit" class="rounded-button blue">{{locale.category_create_button}}</button> {{locale.category_or}} <a href="#" id="redo-reply">{{locale.category_cancel}}</a></p>
             </form>

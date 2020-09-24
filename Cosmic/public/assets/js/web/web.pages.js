@@ -210,10 +210,12 @@ function WebPageArticleInterface(main_page) {
             if (User.is_logged == true) {
                 var id = $(this).attr("data-id");
                 var reply = $('#reply-message').val();
-
+                var csrftoken = $('.article-reply').data('csrf');
+              
                 Web.ajax_manager.post("/community/articles/add", {
                     articleid: id,
-                    message: reply
+                    message: reply,
+                    csrftoken: csrftoken
                 }, function(result) {
                     if (result.status === "success") {
                         var reaction = urlReplace(result.bericht);
@@ -243,13 +245,16 @@ function WebPageSettingsNamechangeInterface(main_page) {
         page_container.find("#username").keyup(function() {
 
             var namechange = page_container.find("#username");
+            var csrftoken = page_container.find("#csrftoken");
             var button = page_container.find("#changeButton");
 
             var givenString = namechange.val();
-
+            var csrftokenString = csrftoken.val();
+           
             if (givenString.length > 0) {
                 Web.ajax_manager.post("/settings/namechange/availability", {
-                    username: givenString
+                    username: givenString,
+                    csrftoken: csrftokenString
                 }, function(result) {
                     if (givenString !== User.username) {
                         if (result.status !== "unavailable") {
@@ -939,7 +944,6 @@ function WebPageHomeInterface(main_page) {
         }
 
         $("#copyReferral").click(function() {
-            console.log(2)
             var copyText = document.getElementById("getReferral");
 
             copyText.select();

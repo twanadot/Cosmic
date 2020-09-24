@@ -17,7 +17,6 @@ class Index
 {
     public function index()
     {       
-      
         $news = Community::getNews(6);
         $rooms = Community::getPopularRooms(5);
         $groups = Community::getPopularGroups(7);

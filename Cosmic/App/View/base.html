@@ -136,6 +136,7 @@
                     required>
                 <i class="flaticon-padlock"></i>
             </label>
+            <input type="hidden" name="csrftoken" value="{{csrf_token}}" />
             <a href="password/claim" class="claim-password" data-close-popup="true"
                 style="margin-top:1px">{{locale_base.login_lost_password}}</a>
             <button type="submit" class="rounded-button blue plain" id="login-request">Log in</button>
@@ -304,7 +305,7 @@
     <script src="/assets/js/jquery.magnific-popup.js"></script>
     <script src="/assets/js/selectric.js?v=3412"></script>
     <script src="/assets/js/functions.js"></script>
-    <script src="/assets/js/web/loading.js?v=2222"></script>
+    <script src="/assets/js/web/loading.js?v=3"></script>
     <script src="/assets/js/pagination.js"></script>
     <script src="/assets/js/jquery.wysibb.js"></script>
   

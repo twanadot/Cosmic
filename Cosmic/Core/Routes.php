@@ -183,12 +183,8 @@ class Routes extends Router
                 return 'var Locale = ' . json_encode(Locale::get('housekeeping/javascript', true), true) . '';
             });
         });
-      
-        if(Config::debug) {
-            Router::error(function(Request $request, \Exception $exception) {
-                response()->json(['error' => $exception->getMessage(), 'code'  => $exception->getCode()]);
-            });
-        }
+
+        Router::csrfVerifier(new \App\Middleware\CsrfMiddleware());
       
         Router::start();
     }

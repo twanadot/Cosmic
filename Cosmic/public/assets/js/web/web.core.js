@@ -109,6 +109,7 @@ function WebInterface() {
             var verification_data = {
                 username: $(".login-form [name=username]").val(),
                 password: $(".login-form [name=password]").val(),
+                csrftoken: $(".login-form [name=csrftoken]").val(),
                 remember_me: $(".login-form [name=remember_me]").is(':checked')
             };
 

@@ -116,6 +116,7 @@
                 <div class="form-group">
                     <textarea name="message" id="editor" class="rounded-textarea blue-active"></textarea>
                 </div>
+                <input type="hidden" name="csrftoken" value="{{csrf_token}}">
                 <input type="hidden" name="topic_id" value="{{topic.id}}" />
                 <input type="hidden" name="guild_id" value="{{topic.guild_id}}" />
                 <p style="text-align: center; margin-top: 30px;"><button type="submit" class="rounded-button blue">{{locale.topic_react}}</button></p>

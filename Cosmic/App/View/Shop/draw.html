@@ -164,6 +164,7 @@
                         </div>
                      </div>
                      <div class="grid-toggle">
+                        <input type="hidden" name="csrftoken" value="{{csrf_token}}">
                         <input type="submit" value="reset" id="resetField">
                         <input type="submit" id="buybadge" value="({{settings.draw_badge_price}}) {{settings.draw_badge_currency}}">
                      </div>

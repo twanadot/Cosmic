@@ -82,7 +82,7 @@ class Articles
         }
       
         $latestReaction = Community::latestArticleReaction($article->id);
-        if($latestReaction->player_id == request()->player->id) {
+        if(!empty($latestReaction) && $latestReaction->player_id == request()->player->id) {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
         }
 
