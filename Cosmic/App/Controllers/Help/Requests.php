@@ -59,7 +59,7 @@ class Requests
             return;
         }
 
-        $ticket = Help::getRequestById(input()->post('ticketid'), request()->player->id);
+        $ticket = Help::getRequestById(input('ticketid'), request()->player->id);
         if ($ticket == null || $ticket->player_id != request()->player->id) {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
         }
@@ -69,7 +69,7 @@ class Requests
             response()->json(["status" => "success", "message" => Locale::get('help/no_answer_yet')]);
         }
 
-        Help::addTicketReaction($ticket->id, request()->player->id, Helper::filterString(input()->post('message')));
+        Help::addTicketReaction($ticket->id, request()->player->id, Helper::filterString(input('message')));
         Help::updateTicketStatus($ticket->id, 'wait_reply');
 
         response()->json(["status" => "success", "message" => Locale::get('core/notification/message_placed'), "replacepage" => "help/requests/" . $ticket->id . "/view"]);
@@ -90,8 +90,8 @@ class Requests
             response()->json(["status" => "error", "message" => Locale::get('help/already_open')]);
         }
 
-        $this->data->subject = input()->post('subject')->value;
-        $this->data->message = Helper::filterString(input()->post('message')->value);
+        $this->data->subject = input('subject');
+        $this->data->message = Helper::filterString(input('message'));
 
         Help::createTicket($this->data, request()->player->id, request()->getIp());
         response()->json(["status" => "success", "message" => Locale::get('help/ticket_created'), "replacepage" => "help/requests/view"]);

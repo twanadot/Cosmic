@@ -34,7 +34,7 @@ class Drawbadge
             response()->json(["status" => "error", "message" => Locale::get('core/notification/not_enough_points')]);
         }
       
-        if(preg_match("/^data:image\/(?<extension>(?:png|gif|jpg|jpeg));base64,(?<image>.+)$/", input()->post('blob')->value, $matchings))
+        if(preg_match("/^data:image\/(?<extension>(?:png|gif|jpg|jpeg));base64,(?<image>.+)$/", input('blob'), $matchings))
         {
            $imageData = base64_decode($matchings['image']);
           

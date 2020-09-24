@@ -470,6 +470,8 @@ function WebPageProfileInterface(main_page) {
     this.init = function() {
         var self = this;
         var page_container = this.main_page.get_page_container();
+      
+        var csrftoken = $("[name=csrftoken]").val();
 
         // Init photos gallery
         page_container.find(".default-section[data-section = 'photos'] .items-container").magnificPopup({
@@ -552,7 +554,8 @@ function WebPageProfileInterface(main_page) {
         function addLike(id) {
             if (User.is_logged == true) {
                 Web.ajax_manager.post("/community/feeds/like", {
-                    post: id
+                    post: id,
+                    csrftoken: csrftoken
                 }, function(result) {
                     if (result.status == 'success') {
                         $('.fa-heart[data-id=' + id + ']').addClass("pulsateOnce");
@@ -621,14 +624,15 @@ function WebPageProfileInterface(main_page) {
                 var top = $(this).attr('data-top');
                 var left = $(this).attr('data-left');
                 var skin = $(this).attr('data-skin');
-                var type = $(this).attr('data-type');
+                var type = $(this).attr('data-type'); 
 
                 arr.push([id, top, left, skin, type]);
             });
 
             Web.ajax_manager.post("/home/profile/save", {
                 draggable: JSON.stringify(arr),
-                background: $(".page-content").attr('data-background')
+                background: $(".page-content").attr('data-background'),
+                csrftoken: csrftoken
             });
         });
 
@@ -651,7 +655,8 @@ function WebPageProfileInterface(main_page) {
             page_container.find(".deleteElement[data-id=" + id + "]").unbind("click").click(function(e) {
                 Web.ajax_manager.post("/home/profile/remove", {
                     id: $(this).attr('data-id'),
-                    type: $(this).attr('data-type')
+                    type: $(this).attr('data-type'),
+                    csrftoken: csrftoken
                 }, function(result) {
                     if (result.status == "success") {
                         $(".widget[data-ids=" + id + "]").remove();
@@ -679,10 +684,11 @@ function WebPageProfileInterface(main_page) {
                     type: 'inline'
                 }
             });
-
+            
             Web.ajax_manager.post("/home/profile/store", {
                 data: 'w',
-                type: null
+                type: null,
+                csrftoken: csrftoken
             }, function(data) {
                 $.each(data.widgets, function(index, value) {
                     dialog.append('<a href="#" data-name="' + value + '" class="widgetButton btn form-control" style="margin-top: 5px">' + value + '</a>');
@@ -691,7 +697,8 @@ function WebPageProfileInterface(main_page) {
                         Web.ajax_manager.post("/home/profile/store", {
                             data: 'w',
                             type: 'p',
-                            add: $(this).attr('data-name')
+                            add: $(this).attr('data-name'),
+                            csrftoken: csrftoken
                         }, function(data) {
                             setTimeout(function() {
                                 page_container.find(".editProfile").click();
@@ -718,7 +725,8 @@ function WebPageProfileInterface(main_page) {
 
             page_container.find(".addSticker").click(function() {
                 Web.ajax_manager.post("/home/profile/store", {
-                    data: 's'
+                    data: 's',
+                    csrftoken: csrftoken
                 }, function(data) {
 
                     var dialog = $(stickers);
@@ -770,7 +778,8 @@ function WebPageProfileInterface(main_page) {
 
             page_container.find(".changeBg").click(function() {
                 Web.ajax_manager.post("/home/profile/store", {
-                    data: 'b'
+                    data: 'b',
+                    csrftoken: csrftoken
                 }, function(data) {
 
                     var dialog = $(template);

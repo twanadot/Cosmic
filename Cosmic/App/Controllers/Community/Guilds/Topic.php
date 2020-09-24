@@ -80,12 +80,8 @@ class Topic {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
         }
       
-        $topic_id = input()->post('topic_id')->value;
-        $guild_id = input()->post('guild_id')->value;
-      
-        $topic    = Guild::getTopicById($topic_id);
+        $topic    = Guild::getTopicById(input('topic_id'));
         $totalPages = ceil(count(Guild::getPostsById($topic->id)) / 10);
-        $message  = input()->post('message')->value;
       
         if (request()->player === null) {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
@@ -99,7 +95,7 @@ class Topic {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/topic_closed')]);
         }
 
-        $reply_id = Guild::createReply($topic_id, Helper::FilterString(Helper::tagByUser($message)), request()->player->id); 
+        $reply_id = Guild::createReply(input('topic_id'), Helper::FilterString(Helper::tagByUser(input('message'))), request()->player->id); 
         response()->json(["status" => "success", "message" =>  Locale::get('core/notification/message_placed'), "replacepage" => "guilds/{$guild_id}/thread/{$topic->id}-" . Helper::convertSlug($topic->subject) . "/page/{$totalPages}#{$reply_id}"]);
     }
   
@@ -122,10 +118,9 @@ class Topic {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/no_permissions')]);
         }
       
-        $post_id = input()->post('id')->value;
-        $guild_id = input()->post('guild_id')->value;
+        $guild_id = input('guild_id');
       
-        $topic = Guild::getTopicById($post_id);
+        $topic = Guild::getTopicById($guild_id);
         $topic->slug = Helper::convertSlug($topic->subject);
 
         if(input()->post('action')->value == "sticky") {
@@ -152,14 +147,12 @@ class Topic {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
         }
       
-        $post_id  = input()->post('id')->value;
-      
-        if (in_array(request()->player->id, array_column(Guild::getPostLikes($post_id), 'user_id'))) {
+        if (in_array(request()->player->id, array_column(Guild::getPostLikes(input('id')), 'user_id'))) {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/already_liked')]);
         }
 
-        Guild::insertLike($post_id, request()->player->id);
-        $topic = Guild::getTopicByPostId($post_id);
+        Guild::insertLike(input('id'), request()->player->id);
+        $topic = Guild::getTopicByPostId(input('id'));
       
         response()->json(["status" => "success", "message" => Locale::get('core/notification/liked'), "replacepage" => input()->post('url')->value . "#{$topic->idp}"]);
     }

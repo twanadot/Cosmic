@@ -18,7 +18,7 @@ class Articles
 {
     public function more()
     {
-        echo Json::encode(['articles' => Community::getNews(6, input()->post('offset')->value)]);
+        echo Json::encode(['articles' => Community::getNews(6, input('offset'))]);
     }
 
     public function hide() {
@@ -51,7 +51,7 @@ class Articles
     }
 
     public function add()
-    {
+    {         
         $validate = request()->validator->validate([
             'articleid'   =>   'required|numeric',
             'message'  =>   'required'
@@ -65,13 +65,13 @@ class Articles
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
         }
       
-        $article = Community::getArticleById(input()->post('articleid')->value);
+        $article = Community::getArticleById(input('articleid'));
 
         if (empty($article)) {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
         }
 
-        $message = Helper::filterString(Helper::tagByUser(input()->post('message')->value, $article->id));
+        $message = Helper::filterString(Helper::tagByUser(input('message'), $article->id));
 
         $wordfilter = Admin::getWordFilters();
 

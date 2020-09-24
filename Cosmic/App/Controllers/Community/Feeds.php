@@ -35,8 +35,8 @@ class Feeds
             return;
         }
 
-        $reply      = input()->post('reply')->value;
-        $user_id    = input()->post('userid')->value;
+        $reply      = input('reply');
+        $user_id    = input('user_id');
 
         $player = Player::getDataById($user_id, 'username');
         if ($player == null) {
@@ -70,7 +70,7 @@ class Feeds
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
         }
       
-        $feed_id = Community::getFeedsByFeedId(input()->post('feedid')->value);
+        $feed_id = Community::getFeedsByFeedId(input('feedid'));
         if($feed_id == null) {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
         }
@@ -88,21 +88,19 @@ class Feeds
          if(!request()->player->id) {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
         }
-      
-        $post = input()->post('post')->value;
 
-        if (Community::userAlreadylikePost($post, request()->player->id)) {
+        if (Community::userAlreadylikePost(input('post'), request()->player->id)) {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/already_liked')]);
         }
 
-        Community::insertLike($post, request()->player->id);
+        Community::insertLike(input('post'), request()->player->id);
         response()->json(["status" => "success", "message" => Locale::get('core/notification/liked')]);
     }
 
     public function more()
     {
         $feeds = new Profile();
-        $init = $feeds->feeds(input()->post('count')->value, input()->post('player_id')->value);
+        $init = $feeds->feeds(input('count'), input('player_id'));
 
         echo Json::encode(['feeds' => $init]);
     }

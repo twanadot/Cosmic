@@ -33,8 +33,8 @@ class Reset
             return;
         }
 
-        $token = input()->post('token')->value;
-        $newPassword = input()->post('new_password')->value;
+        $token = input('token');
+        $newPassword = input('new_password');
 
         $player = Password::getByToken($token, true);
         if ($player == null || $player->timestamp < time()) {

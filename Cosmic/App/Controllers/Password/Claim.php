@@ -23,8 +23,8 @@ class Claim
             return;
         }
 
-        $username   = input()->post('username')->value;
-        $email      = input()->post('email')->value;
+        $username   = input('username');
+        $email      = input('email');
 
         $player = Player::getDataByUsername($username, array('id', 'username', 'mail'));
         if ($player == null || strtolower($player->mail) != strtolower($email)) {

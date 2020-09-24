@@ -23,8 +23,8 @@ class Preferences
             'themeswitch'
         );
 
-        $column = input()->post('post')->value;
-        $type   = (int)filter_var(input()->post('type')->value, FILTER_VALIDATE_BOOLEAN);
+        $column = input('post');
+        $type   = (int)filter_var(input('type'), FILTER_VALIDATE_BOOLEAN);
 
         if (!is_int($type) || !in_array($column, $inArray)) {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong'), "captcha_error" => "error"]);

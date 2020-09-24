@@ -39,11 +39,11 @@ class Registration
             exit;
         }
       
-        $username = input()->post('username')->value;
+        $username = input('username');
 
         $settings = Core::settings();
         $playerData = (object)input()->all();
-        $playerData->figure = input()->post('figure')->value;
+        $playerData->figure = input('figure');
         $getMaxIp = Player::checkMaxIp(request()->getIp());
         
         if (Player::exists($username)) {

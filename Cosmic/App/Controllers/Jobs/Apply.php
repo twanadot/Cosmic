@@ -43,16 +43,16 @@ class Apply
         }
       
         $player_id              =   request()->player->id;
-        $job_id                 =   input()->post('job_id')->value;
-        $firstname              =   input()->post('name')->value;
-        $message                =   input()->post('job_why')->value;
-        $available_monday       =   input()->post('when_monday')->value;
-        $available_tuesday      =   input()->post('when_tuesday')->value;
-        $available_wednesday    =   input()->post('when_wednesday')->value;
-        $available_thursday     =   input()->post('when_thursday')->value;
-        $available_friday       =   input()->post('when_friday')->value;
-        $available_saturday     =   input()->post('when_saturday')->value;
-        $available_sunday       =   input()->post('when_sunday')->value;
+        $job_id                 =   input('job_id');
+        $firstname              =   input('name');
+        $message                =   input('job_why');
+        $available_monday       =   input('when_monday');
+        $available_tuesday      =   input('when_tuesday');
+        $available_wednesday    =   input('when_wednesday');
+        $available_thursday     =   input('when_thursday');
+        $available_friday       =   input('when_friday');
+        $available_saturday     =   input('when_saturday');
+        $available_sunday       =   input('when_sunday');
         
       
         $job = Community::getJob($job_id);

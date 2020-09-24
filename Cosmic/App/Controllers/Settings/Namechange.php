@@ -37,7 +37,7 @@ class Namechange
             return;
         }
 
-        $username = input()->post('username')->value;
+        $username = input('username');
 
         $user_validate = preg_replace('/[^a-zA-Z0-9\d\-\?!@:\.,]/i', '', $username);
         if ($user_validate != $username) {
@@ -62,7 +62,7 @@ class Namechange
 
     public function availability()
     {
-        $username = input()->post('username')->value;
+        $username = input('username');
 
         $userCheck = preg_replace('/[^a-zA-Z0-9\d\-\?!@:\.,]/i', '', $username);
         $player = Player::getDataByUsername($username, array('id'));

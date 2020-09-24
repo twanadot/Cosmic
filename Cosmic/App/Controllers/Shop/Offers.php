@@ -46,8 +46,8 @@ class Offers
             return;
         }
 
-        $offer_id = input()->post('offer_id')->value;
-        $code = input()->post('code')->value;
+        $offer_id = input('offer_id');
+        $code = input('code');
 
         $offer = \App\Models\Shop::getOfferByOfferId($offer_id);
         if ($offer == null) {

@@ -76,10 +76,6 @@ class Category {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
         }
       
-        $title    = input()->post('title')->value;
-        $message  = input()->post('message')->value;
-        $cat_id   = input()->post('guild_id')->value;
-      
         $slug     = Helper::convertSlug($title);
         $forums   = Guild::getGuild($cat_id);
       
@@ -91,8 +87,8 @@ class Category {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/no_permissions')]);
         }
       
-        $topic_id = Guild::createTopic($cat_id, Helper::FilterString($title), request()->player->id, $slug); 
-        $reply_id = Guild::createReply($topic_id, Helper::FilterString(Helper::tagByUser($message)), request()->player->id);
+        $topic_id = Guild::createTopic(input('guild_id'), Helper::FilterString(input('title')), request()->player->id, $slug); 
+        $reply_id = Guild::createReply($topic_id, Helper::FilterString(Helper::tagByUser(input('message'))), request()->player->id);
       
         response()->json(["status" => "success", "message" => Locale::get('core/notification/message_placed'), "replacepage" => "guilds/{$forums->id}/thread/{$topic_id}-{$slug}"]);
     }

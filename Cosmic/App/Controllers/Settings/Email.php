@@ -24,8 +24,8 @@ class Email
             return;
         }
 
-        $currentPassword = input()->post('current_password');
-        $email = input()->post('email');
+        $currentPassword = input('current_password');
+        $email = input('email');
 
         if (!Hash::verify($currentPassword, request()->player->password)) {
             response()->json(["status" => "error", "message" => Locale::get('settings/current_password_invalid')]);

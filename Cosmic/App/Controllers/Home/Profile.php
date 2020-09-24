@@ -87,11 +87,11 @@ class Profile
 
     public function search()
     {
-        if(!Player::exists(input()->post('search')->value)) {
+        if(!Player::exists(input('search'))) {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/profile_notfound')]);
         }
 
-        response()->json(["replacepage" => "profile/" . input()->post('search')->value]);
+        response()->json(["replacepage" => "profile/" . input('search')]);
     }
   
     public function store()
@@ -100,7 +100,7 @@ class Profile
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
         }
         
-        if(input()->post('data')->value == "w") {
+        if(input('data') == "w") {
             
             $widgets = explode(";", Core::settings()->available_profile_widgets);
  
@@ -111,13 +111,13 @@ class Profile
             }
           
             if(input()->post('type')->value == "p") {
-                Profiles::insert(request()->player->id, input()->post('add')->value, '0', '0', 'default_skin', input()->post('data')->value);
+                Profiles::insert(request()->player->id, input()->post('add')->value, '0', '0', 'default_skin', input('data'));
                 response()->json(["status" => "success", "replacepage" => "/profile/" . request()->player->username ]);
             }
         }
 
         $categorys = Profiles::getCategorys();
-        $items = Profiles::getItems(input()->post('data')->value);
+        $items = Profiles::getItems(input('data'));
 
         response()->json(["items" => $items, "categorys" => $categorys, "widgets" => $myWidgets ?? null]);
     }
@@ -128,7 +128,7 @@ class Profile
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
         }
       
-        Profiles::remove(request()->player->id, input()->post('id')->value, input()->post('type')->value);
+        Profiles::remove(request()->player->id, input('id'), input('type'));
         response()->json(["status" => "success", "message" => "Widget deleted!"]); 
     }
 
@@ -147,10 +147,10 @@ class Profile
             }
         }
       
-        if(Profiles::hasBackground(request()->player->id, input()->post('background')->value)) {
-            Profiles::saveBackground(request()->player->id, input()->post('background')->value);
+        if(Profiles::hasBackground(request()->player->id, input('background'))) {
+            Profiles::saveBackground(request()->player->id, input('background'));
         } else {
-            Profiles::insertBackground(request()->player->id, input()->post('background')->value);
+            Profiles::insertBackground(request()->player->id, input('background'));
         }
       
         response()->json(["status" => "success", "message" => "Homepage successfully saved."]);

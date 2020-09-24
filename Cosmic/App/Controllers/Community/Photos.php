@@ -27,17 +27,17 @@ class Photos
             response()->json(["status" => "error", "message" => Locale::get('core/notification/something_wrong')]);
         }
       
-        if (Community::userAlreadylikePhoto(input()->post('post'), request()->player->id)) {
+        if (Community::userAlreadylikePhoto(input('post'), request()->player->id)) {
             response()->json(["status" => "error", "message" => Locale::get('core/notification/already_liked')]);
         }
 
-        Community::insertPhotoLike(input()->post('post'), request()->player->id);
+        Community::insertPhotoLike(input('post'), request()->player->id);
         response()->json(["status" => "success", "message" =>Locale::get('core/notification/liked')]);
     }
 
     public function more()
     {
-        $this->index(input()->post('offset')->value, true);
+        $this->index(input('offset'), true);
         response()->json(['photos' => $this->data->photos]);
     }
 
