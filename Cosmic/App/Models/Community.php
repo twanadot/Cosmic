@@ -69,7 +69,7 @@ class Community
     
     public static function isNewsHidden($news_id)
     {
-        return QueryBuilder::table('website_news_reactions')->select('hidden')->where('news_id', $news_id)->first();
+        return QueryBuilder::table('website_news_reactions')->select('hidden')->where('id', $news_id)->first();
     }
   
     public static function hideNewsReaction($reaction_id, $int)
