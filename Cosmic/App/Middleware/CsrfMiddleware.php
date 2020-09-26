@@ -7,4 +7,4 @@ class CsrfMiddleware extends \Pecee\Http\Middleware\BaseCsrfVerifier
   
     // except post requests
     protected $except = ['/settings/namechange/availability', 'housekeeping/*'];
-
+}
