@@ -27,6 +27,7 @@
         {% endfor %}
     </div>
     <div class="load-more-button">
+        <input type="hidden" name="csrftoken" value="{{csrf_token}}">
         <button class="rounded-button">{{locale.load_more}}</button>
     </div>
 </div>

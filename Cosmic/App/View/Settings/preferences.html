@@ -8,6 +8,7 @@
 
                 <h3 class="aside-title">{{locale.title}}</h3>
                 <form action="settings/preferences/validate" method="post">
+                    <input type="hidden" name="csrftoken" value="{{csrf_token}}">
                     <label class="switch-label" for="block_following-target">
                         <span class="switch-container rounded-radio purple">
                             <input class="settings" type="checkbox" data-id="block_following" id="block_following-target" {% if data.block_following == 1 %}checked{% endif %}>

@@ -188,10 +188,13 @@ function WebPageArticleInterface(main_page) {
         ].join("");
 
         page_container.find(".fa-times, .fa-eye").click(function() {
+            var csrftoken = $("[name=csrftoken]").val();
+          
             if (User.is_logged == true && User.is_staff == true) {
                 var id = $(this).attr("data-id");
                 Web.ajax_manager.post("/community/articles/hide", {
-                    post: id
+                    post: id,
+                    csrftoken: csrftoken
                 }, function(result) {
                     if (result.status === "success") {
                         if (result.is_hidden === "hide") {
@@ -288,6 +291,7 @@ function WebPageSettingsInterface(main_page) {
         page_container.find(".settings").change(function() {
             var post = $(this).attr("data-id");
             var type = this.checked;
+            var csrftoken = $("[name=csrftoken]").val();
 
             var array = ["hide_inroom", "hide_staff", "hide_online", "hide_last_online", "hide_home"]
 
@@ -296,7 +300,8 @@ function WebPageSettingsInterface(main_page) {
             }
             var dataString = {
                 post: post,
-                type: type
+                type: type,
+                csrftoken: csrftoken
             };
 
             self.send_data(dataString);
@@ -347,11 +352,13 @@ function WebPageSettingsVerificationInterface(main_page) {
 
             var current_verification_type_enabled = page_container.find("#verification_enabled").val();
             var verification_enabled = page_container.find("input[name = 'enable_verification']").is(":checked");
+            var csrftoken = $("[name=csrftoken]").val();
             var verification_data = {
                 enabled: false,
                 type: null,
                 data: null,
-                current_password: page_container.find("input[name = 'current_password']").val()
+                current_password: page_container.find("input[name = 'current_password']").val(),
+                csrftoken: csrftoken
             };
 
             if (isEmpty(verification_data.current_password)) {
@@ -526,10 +533,13 @@ function WebPageProfileInterface(main_page) {
         page_container.find(".load-more-button button").click(function() {
             var userId = $(this).attr("data-id");
             var countdivs = $('.feed-item').length;
+            var csrftoken = $("[name=csrftoken]").val();
+          
             Web.ajax_manager.post("/community/feeds/more", {
                 current_page: self.current_page,
                 player_id: userId,
-                count: countdivs
+                count: countdivs,
+                csrftoken: csrftoken
             }, function(result) {
                 if (result.feeds.length > 0) {
                     for (var i = 0; i < result.feeds.length; i++) {
@@ -875,10 +885,13 @@ function WebPageCommunityPhotosInterface(main_page) {
 
         // Load more photos
         page_container.find(".load-more-button button").click(function() {
+          
+            var csrftoken = $("[name=csrftoken]").val();
             var countdivs = $('.photo-container').length;
             Web.ajax_manager.post("/community/photos/more", {
                 current_page: self.current_page,
-                offset: countdivs
+                offset: countdivs,
+                csrftoken: csrftoken
             }, function(result) {
                 if (result.photos.length > 0) {
                     for (var i = 0; i < result.photos.length; i++) {
@@ -888,7 +901,7 @@ function WebPageCommunityPhotosInterface(main_page) {
                         photo_template.fadeIn();
 
                         page_container.find(".fa-heart[data-id=" + photo_data.id + "]").click(function() {
-                            addPhotoLike($(this).attr("data-id"));
+                            addPhotoLike($(this).attr("data-id"), csrftoken);
                         });
                     }
 
@@ -897,10 +910,12 @@ function WebPageCommunityPhotosInterface(main_page) {
             });
         });
 
-        function addPhotoLike(id) {
+        function addPhotoLike(id, csrftoken) {
+           
             if (User.is_logged == true) {
                 Web.ajax_manager.post("/community/photos/like", {
-                    post: id
+                    post: id,
+                    csrftoken: csrftoken
                 }, function(result) {
                     if (result.status == 'success') {
                         $('.fa-heart[data-id=' + id + ']').addClass("pulsateOnce");
@@ -966,9 +981,11 @@ function WebPageHomeInterface(main_page) {
         // Load more articles
         page_container.find(".load-more-button button").click(function() {
             var countdivs = $('.article-container').length;
+            var csrftoken = $("[name=csrftoken]").val();
             Web.ajax_manager.post("/community/articles/more", {
                 current_page: self.current_page,
-                offset: countdivs
+                offset: countdivs,
+                csrftoken: csrftoken
             }, function(result) {
                 if (result.articles.length > 0) {
                     for (var i = 0; i < result.articles.length; i++) {
@@ -1526,10 +1543,12 @@ function WebPageForumInterface(main_page) {
 
         page_container.find(".topicreply").click(function() {
             var post_id = $(this).data("id");
-
+            var csrftoken = $("[name=csrftoken]").val();
+          
             Web.ajax_manager.post("/community/forum/edit", {
                 id: post_id,
-                action: "view"
+                action: "view",
+                csrftoken: csrftoken
             }, function(result) {
                 if (result.status == "success") {
                     page_container.find(".replybox").remove();
@@ -1543,12 +1562,14 @@ function WebPageForumInterface(main_page) {
         });
 
         page_container.find(".fa-heart").click(function() {
+            var csrftoken = $("[name=csrftoken]").val();
             if ($(this).hasClass("tools-active"))
                 self.like($(this).data("id"), $(this).data('guild'));
         });
 
         page_container.find(".btn-func").click(function() {
-            self.closeSticky($(this).data('id'), $(this).data('status'), $(this).data('guild'));
+            var csrftoken = $("[name=csrftoken]").val();
+            self.closeSticky($(this).data('id'), $(this).data('status'), $(this).data('guild'), csrftoken);
         });
 
         $('#pagination').twbsPagination({
@@ -1565,19 +1586,21 @@ function WebPageForumInterface(main_page) {
         });
     };
 
-    this.closeSticky = function(forum_id, actions, guild_id) {
+    this.closeSticky = function(forum_id, actions, guild_id, csrftoken) {
         Web.ajax_manager.post("/guilds/post/topic/stickyclosethread", {
             id: forum_id,
             action: actions,
-            guild_id: guild_id
+            guild_id: guild_id,
+            csrftoken: csrftoken
         });
     };
 
-    this.like = function(forum_id, guild_id) {
+    this.like = function(forum_id, guild_id, csrftoken) {
         Web.ajax_manager.post("/guilds/post/topic/like", {
             id: forum_id,
             url: Web.pages_manager.current_page_url,
-            guild_id: guild_id
+            guild_id: guild_id,
+            csrftoken: csrftoken
         }, function(result) {
             if (result.status == 'success') {
                 $('.fa-heart[data-id=' + forum_id + ']').removeClass("tools-active");
