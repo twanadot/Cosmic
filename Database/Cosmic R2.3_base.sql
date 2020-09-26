@@ -488,7 +488,7 @@ INSERT INTO `website_settings` VALUES ('user_of_the_week', NULL);
 INSERT INTO `website_settings` VALUES ('draw_badge_imaging', NULL);
 INSERT INTO `website_settings` VALUES ('draw_badge_currency', '5');
 INSERT INTO `website_settings` VALUES ('draw_badge_price', '1000');
-
+INSERT INTO `website_settings` VALUES ('available_profile_widgets', 'myhabbo;friends;rooms;groups;mybadges;note;photos');
 -- ----------------------------
 -- Table structure for website_settings_currencys
 -- ----------------------------
@@ -1573,5 +1573,6 @@ ALTER TABLE users ADD extra_rank int(2) NULL DEFAULT NULL;
 ALTER TABLE users MODIFY mail VARCHAR(500);
 ALTER TABLE users ADD template enum('light','dark') NULL DEFAULT 'light';
 ALTER TABLE bans MODIFY COLUMN machine_id varchar(255)NOT NULL DEFAULT '';
+
 
 SET FOREIGN_KEY_CHECKS = 1;

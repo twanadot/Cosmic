@@ -984,3 +984,5 @@ CREATE TABLE `website_profile_homes`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 82 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+INSERT INTO `website_settings` VALUES ('available_profile_widgets', 'myhabbo;friends;rooms;groups;mybadges;note;photos');
