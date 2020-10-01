@@ -29,8 +29,8 @@
                 {% set number = 1 %}
             {% endif %}
           <div class="room" style="background: url(/assets/images/web/pages/community/rooms/room_icon_1.gif) no-repeat center left;">
-              <p class="room_title">Test</p>
-              <p class="room_description">dsadsad</p>
+              <p class="room_title">{{row.name}}</p>
+              <p class="room_description">{{row.description}}</p>
               <a target="_blank" href="/client?room=test">Enter Room</a>
           </div>
         {% endfor %}
@@ -72,7 +72,7 @@
             </div>
            </div>
         <div class="userplate">
-           <div class="useravatar"><img src="https://gtswf.cf/ms-swf/c_images/Badgeparts/generated/b077117s077117s021141s021141.png"></div>
+           <div class="useravatar"><img src="{{site.cpath}}/c_images/album1584/{{row.badge_code}}.gif"></div>
         </div>
         <div class="usermotto"></div>
     {% endfor %}
@@ -103,7 +103,7 @@
    </div>
 </div>
 <div class="userplate">
-   <div class="useravatar"><img src="https://habbo.com.br/habbo-imaging/avatarimage?figure=hr-802-37.hd-185-1.ch-804-82.lg-280-73.sh-3068-1408-1408.wa-2001&gesture=sml&headonly=1"></div>
+   <div class="useravatar"><img src="https://habbo.com.br/habbo-imaging/avatarimage?figure={{user.data.look}}&gesture=sml&headonly=1"></div>
 </div>
 <div class="usermotto">
    {{data.player.motto}}
