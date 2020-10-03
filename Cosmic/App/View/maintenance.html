@@ -57,6 +57,7 @@
             <form class="form" method="post">
                 <input type="text" name="username" placeholder="Username">
                 <input type="password" name="password" placeholder="Password">
+                <input type="hidden" name="csrftoken" value="{{csrf_token}}">
                 <button type="submit" id="login-button">LOGIN</button>
             </form>
         </div>
@@ -88,7 +89,8 @@
  $("#login-button").unbind().click(function () {
     var verification_data = {
         username: $(".form [name=username]").val(),
-        password: $(".form [name=password]").val()
+        password: $(".form [name=password]").val(),
+        csrftoken: $(".form [name=csrftoken]").val()
     };
 
     Web.ajax_manager.post("/home/login/request", verification_data, function(result) {
