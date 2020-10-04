@@ -550,7 +550,7 @@ function WebPageProfileInterface(main_page) {
                         page_container.find(".feeds").append(article_template);
 
                         page_container.find(".fc-like[data-id=" + feed_data.id + "]").click(function() {
-                            addLike($(this).attr("data-id"));
+                            addLike($(this).attr("data-id"), csrftoken);
                         });
 
                     }
@@ -561,7 +561,7 @@ function WebPageProfileInterface(main_page) {
             });
         });
 
-        function addLike(id) {
+        function addLike(id, csrftoken) {
             if (User.is_logged == true) {
                 Web.ajax_manager.post("/community/feeds/like", {
                     post: id,
@@ -577,17 +577,18 @@ function WebPageProfileInterface(main_page) {
             }
         }
 
-        function addPost(message, id) {
+        function addPost(message, id, csrftoken) {
             Web.ajax_manager.post("/community/feeds/post", {
                 reply: message,
-                userid: id
+                userid: id,
+                csrftoken: csrftoken
             });
         }
 
         $($('.rounded-input')).on('keypress', function(e) {
             var code = e.keyCode || e.which;
             if (code == 13) {
-                addPost($('.rounded-input').val(), $("input[name=userid]").val());
+                addPost($('.rounded-input').val(), $("input[name=userid]").val(), $("[name=csrftoken]").val());
             }
         });
 
