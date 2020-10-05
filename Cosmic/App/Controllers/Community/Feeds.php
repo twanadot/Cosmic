@@ -36,7 +36,7 @@ class Feeds
         }
 
         $reply      = input('reply');
-        $user_id    = input('user_id');
+        $user_id    = input('userid');
 
         $player = Player::getDataById($user_id, 'username');
         if ($player == null) {
