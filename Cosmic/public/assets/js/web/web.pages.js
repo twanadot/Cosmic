@@ -521,9 +521,11 @@ function WebPageProfileInterface(main_page) {
 
         page_container.find(".fa-remove").click(function() {
             var feedid = $(this).attr("data-id");
+            var csrftoken = $("[name=csrftoken]").val();
 
             Web.ajax_manager.post("/community/feeds/delete", {
                 feedid: feedid
+                csrftoken: csrftoken
             });
         });
 
