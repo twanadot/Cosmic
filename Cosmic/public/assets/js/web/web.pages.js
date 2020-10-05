@@ -524,7 +524,7 @@ function WebPageProfileInterface(main_page) {
             var csrftoken = $("[name=csrftoken]").val();
 
             Web.ajax_manager.post("/community/feeds/delete", {
-                feedid: feedid
+                feedid: feedid,
                 csrftoken: csrftoken
             });
         });
