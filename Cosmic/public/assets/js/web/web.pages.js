@@ -881,8 +881,10 @@ function WebPageCommunityPhotosInterface(main_page) {
         });
 
         page_container.find(".fa-heart").click(function() {
+            var csrftoken = $("[name=csrftoken]").val();
+            
             if (loadmore == true) {
-                addPhotoLike($(this).attr("data-id"));
+                addPhotoLike($(this).attr("data-id"), csrftoken);
             }
         });
 
@@ -891,6 +893,7 @@ function WebPageCommunityPhotosInterface(main_page) {
           
             var csrftoken = $("[name=csrftoken]").val();
             var countdivs = $('.photo-container').length;
+            
             Web.ajax_manager.post("/community/photos/more", {
                 current_page: self.current_page,
                 offset: countdivs,
