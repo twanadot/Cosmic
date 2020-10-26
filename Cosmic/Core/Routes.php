@@ -184,7 +184,7 @@ class Routes extends Router
             });
         });
 
-        Router::csrfVerifier(new \App\Middleware\CsrfMiddleware());
+        //Router::csrfVerifier(new \App\Middleware\CsrfMiddleware());
       
         Router::start();
     }
