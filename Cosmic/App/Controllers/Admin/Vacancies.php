@@ -83,11 +83,7 @@ class Vacancies
     {
         $this->job = new \stdClass();
         $this->job->job = Community::getApplicationById(input()->post('id')->value);
-
-        foreach($this->job->job as $row) {
-            $row->message = Helper::filterString($row->message);
-        }
-
+        $this->job->job->message = Helper::filterString($this->job->job->message);
         Json::encode($this->job);
     } 
   
