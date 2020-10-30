@@ -92,6 +92,7 @@
 
             <p class="submit-button">
                 <input type="hidden" name="job_id" value="{{job.id}}">
+                <input type="hidden" name="csrftoken" value="{{csrf_token}}">
                 <button type="submit" class="rounded-button brown">{{locale.send}}</button>
             </p>
         </form>
