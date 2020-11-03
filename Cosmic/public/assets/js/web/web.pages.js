@@ -38,6 +38,8 @@ function WebHotelManagerInterface() {
         if (arguments !== undefined) {
             parse_str(arguments, actions);
         }
+      
+        var argument = arguments;
 
         var body = $("body");
 
@@ -54,8 +56,7 @@ function WebHotelManagerInterface() {
                     History.pushState(null, Site.name + '- Krews Vote', 'hotel');
                 } else {
                     if (container.find(".client-frame").length === 0)
-
-                        container.prepend('<iframe class="client-frame" src="/client"></iframe>');
+                        container.prepend('<iframe class="client-frame" src="/client?' + argument + '"></iframe>></iframe>');
 
                     body.addClass("hotel-visible");
 
@@ -71,6 +72,7 @@ function WebHotelManagerInterface() {
         }
     };
 
+  
     /*
      * LeetFM Player
      * */
@@ -881,10 +883,8 @@ function WebPageCommunityPhotosInterface(main_page) {
         });
 
         page_container.find(".fa-heart").click(function() {
-            var csrftoken = $("[name=csrftoken]").val();
-            
             if (loadmore == true) {
-                addPhotoLike($(this).attr("data-id"), csrftoken);
+                addPhotoLike($(this).attr("data-id"));
             }
         });
 
@@ -893,7 +893,6 @@ function WebPageCommunityPhotosInterface(main_page) {
           
             var csrftoken = $("[name=csrftoken]").val();
             var countdivs = $('.photo-container').length;
-            
             Web.ajax_manager.post("/community/photos/more", {
                 current_page: self.current_page,
                 offset: countdivs,
