@@ -75,6 +75,7 @@ class Client
 
         View::renderTemplate('Client/client.html', [
             'title' => Locale::get('core/title/hotel'),
+            'room' => explode("=", url()->getOriginalUrl())[1] ?? null,
             'data'  => $this->data,
             'client' => Config::client,
             'site' => Config::site
