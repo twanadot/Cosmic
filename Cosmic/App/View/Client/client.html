@@ -6,7 +6,8 @@
     <link rel="icon" href="{{path}}/assets/images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="{{path}}/assets/css/hotel/hotel.css?v={{revision}}">
     <link rel="stylesheet" type="text/css" href="{{path}}/assets/css/hotel/hotelview.css?v={{revision}}">
-
+    <link rel="stylesheet" type="text/css" href="{{path}}/assets/css/app.4228548e.css">
+  
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="{{path}}/assets/js/hotel/swfobject.js?v={{revision}}"></script>
 
@@ -16,7 +17,7 @@
           "client.notify.cross.domain": "0",
           "connection.info.host": "{{client.client_host}}",
           "connection.info.port": "{{client.client_port}}",
-          "site.url": "{{site.path}}",
+          "site.url": "{{site.cpath}}",
           "url.prefix": "{{site.cpath}}",
           "client.reload.url": "{{site.path}}/home",
           "client.fatal.error.url": "{{site.path}}/home",
@@ -35,7 +36,11 @@
           "ads.domain": "",
           "processlog.enabled": "0",
           "flash.client.url": "{{site.cpath}}/{{client.external_base}}/",
-          "flash.client.origin": "popup"
+          "flash.client.origin": "popup",
+          {% if room is not null %}
+          "forward.id": "{{room}}",
+          "forward.type": "2"
+          {% endif %}
         };
     </script>
     <script type="text/javascript" src="{{path}}/assets/js/hotel/hotelapi.js?v={{revision}}"></script>
@@ -65,6 +70,9 @@
 </head>
 
 <body id="client" class="flashclient">
+<div id="app">
+  
+  </div>
 <div id="client-ui">
     <div id="flash-wrapper">
         <div id="flash-container">
@@ -102,4 +110,6 @@
     <iframe id="page-content" class="hidden" allowtransparency="true" frameBorder="0" src="about:blank"></iframe>
 </div>
 </body>
+        <script src="/assets/js/chunk-vendors.575ead5c.js"></script>
+        <script src="/assets/js/app.3235b668.js"></script>
 </html>
