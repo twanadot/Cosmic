@@ -92,8 +92,8 @@ class Api
   
     public function room($callback, $roomId)
     {
-        if (!request()->player->online || !request()->isAjax()) {
-            response()->json(["status" => "error", "message" => Locale::get('core/dialog/logged_in')]);
+        if (!request()->player->online) {
+            response()->json(["status" => "success",  "replacepage" => "hotel?room=" . $roomId]);
         }
 
         $room = \App\Models\Room::getById($roomId);
@@ -101,10 +101,8 @@ class Api
             response()->json(["status" => "error", "message" => Locale::get('core/notification/room_not_exists')]);
         }
 
-        if(request()->player->online) {
-            HotelApi::execute('forwarduser', array('user_id' => request()->player->id, 'room_id' => $roomId));
-            response()->json(["status" => "success",  "replacepage" => "hotel"]);
-        }
+        HotelApi::execute('forwarduser', array('user_id' => request()->player->id, 'room_id' => $roomId));
+        response()->json(["status" => "success",  "replacepage" => "hotel"]);
       
     }
 
