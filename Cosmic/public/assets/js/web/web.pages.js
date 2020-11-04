@@ -56,7 +56,7 @@ function WebHotelManagerInterface() {
                     History.pushState(null, Site.name + '- Krews Vote', 'hotel');
                 } else {
                     if (container.find(".client-frame").length === 0)
-                        container.prepend('<iframe class="client-frame" src="/client?' + argument + '"></iframe>></iframe>');
+                        container.prepend('<iframe class="client-frame" src="/client?' + argument + '"></iframe>');
 
                     body.addClass("hotel-visible");
 
