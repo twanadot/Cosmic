@@ -29,7 +29,7 @@ class Admin
 
     public static function getNameChanges($limit = 100)
     {
-        return QueryBuilder::table('namechange_log')->OrderBy('id', 'desc')->limit($limit)->get();
+        return QueryBuilder::table('namechange_log')->OrderBy('timestamp', 'desc')->limit($limit)->get();
     }
 
     public static function getTradeLogs($player_id, $limit = 1000)
