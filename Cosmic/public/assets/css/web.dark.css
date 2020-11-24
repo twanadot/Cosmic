@@ -847,8 +847,8 @@ input:-webkit-autofill {
 }
 
 .rounded-button.brown {
-    color: #37241c;
-    border-color: #37241c;
+    color: #ffffff;
+    border-color: #9c9c9c;
 }
 
 .rounded-button.brown:not([disabled]):not(.no-hover):hover,
