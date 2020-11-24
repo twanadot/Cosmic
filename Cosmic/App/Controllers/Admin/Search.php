@@ -16,6 +16,8 @@ class Search
 
     public function __construct(){
         $this->data = new stdClass();
+        $this->url = explode("=", url()->getOriginalUrl())[1] ?? null;
+        $this->sub_url = explode("=", url()->getOriginalUrl())[2] ?? null;
     }
   
     public function emptyString()
@@ -25,9 +27,7 @@ class Search
   
     public function items()
     {
-        $string =  input()->get('searchTerm')->value ?? null;
-
-        $items = Admin::getItems($string);
+        $items = Admin::getItems($this->url);
         foreach($items as $item) {
             $this->paths[] = array('id' => $item->id, 'text' => $item->item_name);
         }
@@ -37,9 +37,7 @@ class Search
   
     public function currencys()
     {
-        $string =  input()->get('searchTerm')->value ?? null;
-
-        $currencys = Core::getCurrencys($string);
+        $currencys = Core::getCurrencys($this->url);
         foreach($currencys as $currency) {
             $this->paths[] = array('id' => $currency->type, 'text' => $currency->currency);
         }
@@ -49,13 +47,11 @@ class Search
   
     public function playerid()
     {
-        $string =  input()->get('searchTerm')->value ?? null;
-
-        if(!isset($string)) {
+        if(!isset($this->url)) {
             response()->json(['id' => "none", 'text' => 'Where are you searching for?']);
         }
 
-        $userObject = Admin::getPlayersByString($string);
+        $userObject = Admin::getPlayersByString($this->url);
         foreach($userObject as $user) {
             $this->paths[] = array('id' => $user->id, 'text' => $user->username);
         }
@@ -65,13 +61,11 @@ class Search
 
     public function catalogueitem()
     {
-        $string =  input()->get('searchTerm')->value ?? null;
-
-        if(!isset($string)) {
+        if(!isset($this->url)) {
             response()->json(['id' => "none", 'text' => 'Choose an catalogue page']);
         }
 
-        $userObject = Admin::getCataloguePage($string);
+        $userObject = Admin::getCataloguePage($this->url);
         foreach($userObject as $user) {
             $this->paths[] = array('id' => $user->id, 'text' => $user->caption);
         }
@@ -81,13 +75,11 @@ class Search
       
     public function playername()
     {
-        $string =  input()->get('searchTerm')->value ?? null;
-
-        if(!isset($string)) {
+        if(!isset($this->url)) {
             response()->json(['id' => "none", 'text' => 'Where are you searching for?']);
         }
 
-        $userObject = Admin::getPlayersByString($string);
+        $userObject = Admin::getPlayersByString($this->url);
         foreach($userObject as $user) {
             $this->paths[] = array('id' => $user->username, 'text' => $user->username);
         }
@@ -97,13 +89,11 @@ class Search
 
     public function rooms()
     {
-        $string = input()->get('searchTerm')->value ?? null;
-
-        if(!isset($string)) {
+        if(!isset($this->url)) {
             response()->json(['id' => "none", 'text' => 'Where are you searching for?']);
         }
 
-        $roomObject = Admin::getRoomsByString($string);
+        $roomObject = Admin::getRoomsByString($this->url);
         foreach($roomObject as $room) {
             $this->paths[] = array('id' => $room->id, 'text' => $room->name.' From: '.$room->owner.' Visitors: '.$room->users_now);
         }
@@ -113,8 +103,7 @@ class Search
 
     public function role()
     {
-        $string = input()->get('searchTerm')->value ?? null;
-        $roleObject = Permission::getRoles($string);
+        $roleObject = Permission::getRoles($this->url);
         foreach($roleObject as $rank) {
             $this->paths[] = array('id' => $rank->id, 'text' => $rank->rank_name);
         }
@@ -124,10 +113,10 @@ class Search
 
     public function permission()
     {
-        $permission_id =  input()->get('searchTerm')->value ?? null;
-        $role_id =  input()->get('roleid')->value;
-
-        if(!isset($permission_id) && !isset($role_id)) {
+        $role_id = (int) filter_var($this->sub_url, FILTER_SANITIZE_NUMBER_INT);
+        $permission_id = explode("&", $this->url, 2)[0];
+      
+        if(empty($role_id)) {
             response()->json(['id' => "none", 'text' => 'Where are you searching for?']);
         }
 
@@ -137,7 +126,7 @@ class Search
                 $this->paths[] = array('id' => $rank->id, 'text' => $rank->permission);
             }
         }
-
+ 
         if(empty($this->paths)) {
             response()->json(['id' => "none", 'text' => 'This role has all the permissions they can have']);
         }
@@ -147,9 +136,7 @@ class Search
 
     public function wordfilter()
     {
-        $string = input()->get('searchTerm')->value ?? null;
-
-        if(!isset($string)) {
+        if(!isset($this->url)) {
             response()->json(['id' => "none", 'text' => 'Where are you searching for?']);
         }
 
