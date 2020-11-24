@@ -16,6 +16,11 @@
     border-color: #4cae4c;
 }
 
+#login-dialog,
+#about-dialog {
+   color: #000;
+}
+
 .btn {
     text-decoration: none;
     display: inline-block;
@@ -3575,7 +3580,7 @@ input:-webkit-autofill {
 .page-container[data-page="shop_club"] .shop-purses .purse-container {
     -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background-color: #1C1C1A;;
     padding: 0 5px 0 52px;
     width: 150px;
     height: 44px;
