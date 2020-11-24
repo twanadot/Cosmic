@@ -118,11 +118,14 @@ class Remote
         if(!$validate->isSuccess()) {
             return;
         }
+     
 
         if(!Permission::exists('housekeeping_reset_user', request()->player->rank)) {
             Log::addStaffLog($player->id, 'No permissions to reset', request()->player->id, 'error');
             response()->json(["status" => "error", "message" => "No permissions to reset!"]);
         }
+      
+        $player = Player::getDataByUsername(input('element'));
   
         switch (input()->post('type')->value) {
             
@@ -136,7 +139,6 @@ class Remote
                 break;
 
             case 2: 
-                        
                 HotelApi::execute('updateuser', ['user_id' => $player->id, 'look' => "hr-802-37.hd-185-1.ch-804-82.lg-280-73.sh-3068-1408-1408.wa-2001"]);
                 response()->json(["status" => "success", "message" => "The look of {$player->username} is resetted!"]);
 
