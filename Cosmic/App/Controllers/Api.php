@@ -63,12 +63,6 @@ class Api
             return response()->json(['message' => 'no token']);
         }
       
-        $settings = Player::getSettings($player->id);
-        if($settings->club_expire_timestamp > 0) {
-             $this->callback = [["buildersClubMember" => true]];
-        }
-        
-      
         $this->callback = [
             [
                 "uniqueId" => $_SESSION['auth_ticket'],
