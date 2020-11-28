@@ -23,6 +23,16 @@ class Player
     {
         return QueryBuilder::table('users')->select($data ?? static::$data)->setFetchMode(PDO::FETCH_CLASS, get_called_class())->where('id', $player_id)->first();
     }
+  
+    public static function getDataByEmail($email, $data = null)
+    {
+        return QueryBuilder::table('users')->where('mail', $email)->first();
+    }
+  
+    public static function getDataByAuthToken($token, $data = null)
+    {
+        return QueryBuilder::table('users')->where('auth_ticket', $token)->first();
+    }
 
     public static function getDataByUsername($username, $data = null)
     {
