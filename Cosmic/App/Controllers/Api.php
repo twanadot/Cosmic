@@ -2,6 +2,8 @@
 namespace App\Controllers;
 
 use App\Config;
+use App\Hash;
+use App\Token;
 
 use App\Models\Core;
 use App\Models\Room;
@@ -10,6 +12,7 @@ use App\Models\Player;
 use Library\HotelApi;
 use Library\Json;
 
+use Core\Session;
 use Core\Locale;
 use \Selly as Selly;
 
@@ -22,6 +25,134 @@ class Api
     public function __construct()
     {
         $this->settings = Core::settings();
+    }
+  
+    public function welcome()
+    {
+        $this->callback = [
+                "message" => "hello world"
+        ];
+      
+        return response()->json($this->callback);
+    }
+  
+    public function ssotoken()
+    {
+        if(empty($_SESSION['auth_ticket'])){
+            http_response_code(401);
+            return response()->json(['message' => 'no token']);
+        }
+      
+        $this->callback = [
+                "ssoToken" => $_SESSION['auth_ticket']
+        ];
+      
+        return response()->json($this->callback);
+    }
+  
+    public function avatars() 
+    {
+        if(empty($_SESSION['auth_ticket'])) {
+            http_response_code(401);
+            return response()->json(['message' => 'no token']);
+        }
+      
+        $player = Player::getDataByAuthToken($_SESSION['auth_ticket']);
+        if(!$player) {
+            http_response_code(401);
+            return response()->json(['message' => 'no token']);
+        }
+      
+        $settings = Player::getSettings($player->id);
+        if($settings->club_expire_timestamp > 0) {
+             $this->callback = [["buildersClubMember" => true]];
+        }
+        
+      
+        $this->callback = [
+            [
+                "uniqueId" => $_SESSION['auth_ticket'],
+                "name" => $player->username,
+                "figureString" => $player->look,
+                "motto" => $player->motto,
+                "habboClubMember" => true,
+                "lastWebAccess" => "2020-11-19T11:05:03.000+0000",
+                "creationTime" => "2013-12-16T09:57:30.000+0000",
+                "banned" => false
+            ]
+        ];
+      
+        response()->json($this->callback);
+    }
+  
+    public function select()
+    {
+        if(empty($_SESSION['auth_ticket'])) {
+            http_response_code(401);
+            return response()->json(['message' => 'no token']);
+        }
+      
+        $player = Player::getDataByAuthToken($_SESSION['auth_ticket']);
+        if(!$player) {
+            http_response_code(401);
+            return response()->json(['message' => 'no token']);
+        }
+      
+        $this->callback = [
+            "ip" => $player->ip_current,
+            "uniqueId" => $player->auth_ticket,
+            'figureString' => $player->look,
+            "motto" => $player->motto,
+            "buildersClubMember" => false,
+            "habboClubMember" => true,
+            "lastWebAccess" => "2020-11-19T11:05:03.000+0000",
+            "creationTime" => "2013-12-16T09:57:30.000+0000"
+        ];
+      
+        response()->json($this->callback);
+    }
+  
+    public function login()
+    {
+        $_POST = json_decode(file_get_contents('php://input'), true);
+      
+        $player = Player::getDataByEmail($_POST['email']);
+        if ($player == null || !Hash::verify($_POST['password'], $player->password)) {
+            http_response_code(401);
+            return response()->json(['message' => 'wrong password']);
+        }
+      
+        $auth_ticket = Token::authTicket($player->id);
+        Player::update($player->id, ["auth_ticket" => $auth_ticket]);
+        $_SESSION['auth_ticket'] = $auth_ticket;
+      
+        $this->callback = [
+          [
+          'uniqueId' => $auth_ticket,
+          'name'  => $player->username,
+          'figureString' => $player->look,
+          'motto' => $player->motto,
+          'buildersClubMember' => false,
+          'habboClubMember' => true,
+          'lastWebAccess' => "2020-11-19T11:05:03.000+0000",
+          'creationTime' => "2013-12-16T09:57:30.000+0000",
+          'sessionLogId' => 1337,
+          'loginLogId' => 7331,
+          'email' => $player->mail,
+          'identityId' => 1,
+          'emailVerified' => true,
+          'identityVerified' => true,
+          'identityType' => "HABBO",
+          'trusted' => true,
+          'force' => ["NONE"],
+          'accountId' => $player->id,
+          'country' => "nl",
+          'traits' => ["USER"],
+          'partner' => "NO_PARTNER"
+            ]
+        ];
+
+        response()->json($this->callback);
     }
   
     public function vote()
@@ -108,6 +239,10 @@ class Api
 
     public function user($callback, $username)
     {
+        if($username == 'avatars') {
+            $this->avatars();
+        }
+      
         $user = Player::getDataByUsername($username);
         if(!$user) {
             response()->json([
