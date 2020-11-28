@@ -24,14 +24,18 @@ class Routes extends Router
         Router::PartialGroup('/', function () {
          
             Router::setDefaultNamespace('\App\Controllers');
-          
-            Router::get('/assets/js/web/user_settings.js', 'Home\Index@configuration');
+                    
+            Router::all('/api/ssotoken', 'Api@ssotoken');
+            Router::all('/api/user/avatars', 'Api@avatars');
+            Router::all('/api/user/avatars/select', 'Api@select');
+            Router::all('/api/public/info/hello', 'Api@welcome');
+            Router::all('/api/public/authentication/login', 'Api@login');
           
             Router::partialGroup('/api/{callback}', function ($callback) {
                 Router::all('/{param}', 'Api@' . $callback);
                 Router::all('/', 'Api@' . $callback);
             });
-        
+
             Router::get('/', 'Home\Index@index')->setName('index.home');
             Router::get('/home', 'Home\Index@index');
             Router::get('/lost', 'Home\Lost@index')->setName('lost');
